@@ -12,7 +12,7 @@ use crate::utils::conversion::{pop_i32, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn base_tx_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<BaseTx, Box<dyn Error>> {
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
@@ -66,7 +66,7 @@ pub fn base_tx_parser(
             index,
             &_raw_msg[*_context.offset..=(*_context.offset + 31)]
         );
-        outputs.push(transferable_output_parser(&_raw_msg, _context)?);
+        outputs.push(transferable_output_parser(&Vec::from(_raw_msg), _context)?);
         index += 1;
     }
 
@@ -92,7 +92,7 @@ pub fn base_tx_parser(
             index,
             &_raw_msg[*_context.offset..=(*_context.offset + 31)]
         );
-        inputs.push(transferable_input_parser(&_raw_msg, _context)?);
+        inputs.push(transferable_input_parser(&Vec::from(_raw_msg), _context)?);
         index += 1;
     }
 

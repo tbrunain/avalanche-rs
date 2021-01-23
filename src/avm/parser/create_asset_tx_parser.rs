@@ -10,7 +10,7 @@ use crate::utils::conversion::{pop_u16, pop_u32, pop_u8};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn create_asset_tx_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<CreateAssetTx, Box<dyn Error>> {
     let base = base_tx_parser(_raw_msg, _context)?;

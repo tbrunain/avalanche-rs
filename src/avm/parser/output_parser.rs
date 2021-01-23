@@ -39,7 +39,7 @@ pub fn output_parser(_raw_msg: &Vec<u8>, _context: &mut Context) -> Result<Outpu
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn secp256k1_mint_output_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<Output, Box<dyn Error>> {
     // Locktime
@@ -103,7 +103,7 @@ pub fn secp256k1_mint_output_parser(
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn secp256k1_transfer_output_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<Output, Box<dyn Error>> {
     // Amount
@@ -177,7 +177,7 @@ pub fn secp256k1_transfer_output_parser(
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn nft_mint_output_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<Output, Box<dyn Error>> {
     // Group Id
@@ -251,7 +251,7 @@ pub fn nft_mint_output_parser(
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn nft_transfer_output_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<Output, Box<dyn Error>> {
     // Group Id

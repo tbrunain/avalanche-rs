@@ -17,7 +17,7 @@ use crate::utils::conversion::{pop_i32, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn transfer_op_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<TransferableOperation, Box<dyn Error>> {
     // Asset Id
@@ -100,7 +100,7 @@ pub fn transfer_op_parser(
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn secp256k1_mint_operation_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<SECP256K1MintOp, Box<dyn Error>> {
     // Address indices number
@@ -145,7 +145,7 @@ pub fn secp256k1_mint_operation_parser(
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn nft_mint_operation_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<NFTMintOp, Box<dyn Error>> {
     // Address indices number
@@ -253,7 +253,7 @@ pub fn nft_mint_operation_parser(
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn nft_transfer_operation_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<NFTTransferOp, Box<dyn Error>> {
     // Address indices number

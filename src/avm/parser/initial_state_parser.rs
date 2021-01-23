@@ -10,7 +10,7 @@ use crate::utils::conversion::{pop_i32, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = % _context.ipc, tx_id = % _context.tx_id))]
 pub fn initial_state_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<InitialState, Box<dyn Error>> {
     // Type Id
@@ -46,7 +46,7 @@ pub fn initial_state_parser(
             _context.offset,
             _raw_msg.len()
         );
-        let output = output_parser(_raw_msg, _context)?;
+        let output = output_parser(&Vec::from(_raw_msg), _context)?;
 
         outputs.push(output);
         index += 1;

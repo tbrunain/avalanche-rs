@@ -16,7 +16,7 @@ use crate::utils::misc::generate_id;
 /// Will parse a Vector of bytes (u8) and return a `SignedTx`
 #[instrument(skip(_raw_msg), fields(ipc = % _context.ipc, tx_id = % _context.tx_id))]
 pub fn signed_tx_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<SignedTx, Box<dyn Error>> {
     let codec_id = pop_i16(_raw_msg[*_context.offset..=(*_context.offset + 1)].borrow());
@@ -77,7 +77,7 @@ pub fn signed_tx_parser(
             _context.tx_id,
             index
         );
-        let credential = credential_parser(&_raw_msg, _context)?;
+        let credential = credential_parser(&Vec::from(_raw_msg), _context)?;
         credentials.push(credential);
         index += 1;
     }
@@ -85,7 +85,7 @@ pub fn signed_tx_parser(
     Ok(SignedTx {
         codec_id,
         unsigned_tx_offset,
-        tx_id: generate_id(_raw_msg),
+        tx_id: generate_id(&Vec::from(_raw_msg)),
         base_tx: base,
         create_asset_tx: create_asset,
         operation_tx: operation,

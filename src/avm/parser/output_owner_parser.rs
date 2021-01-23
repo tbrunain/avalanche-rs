@@ -9,7 +9,7 @@ use crate::utils::conversion::{pop_i32, pop_i64};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn output_owner_parser(
-    _raw_msg: &Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<OutputOwner, Box<dyn Error>> {
     // Locktime
