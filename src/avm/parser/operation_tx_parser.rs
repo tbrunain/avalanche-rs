@@ -1,12 +1,11 @@
-
 use tracing::{instrument, trace};
 
 use std::borrow::Borrow;
 use std::error::Error;
 
-use crate::avm::parser::{Context, OperationTx};
 use crate::avm::parser::base_tx_parser::base_tx_parser;
 use crate::avm::parser::transfer_op_parser::transfer_op_parser;
+use crate::avm::parser::{Context, OperationTx};
 use crate::utils::conversion::pop_u32;
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]

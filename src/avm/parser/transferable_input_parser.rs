@@ -5,8 +5,8 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, TransferableInput};
 use crate::avm::parser::input_parser::input_parser;
+use crate::avm::parser::{Context, TransferableInput};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_i32;
 
@@ -16,8 +16,7 @@ pub fn transferable_input_parser<'a>(
     _context: &mut Context,
 ) -> Result<TransferableInput, Box<dyn Error>> {
     // Tx Id
-    let tx_id =
-        encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
+    let tx_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
         "\n {} -- {} \n TransferableInput -- TxId : {:?} \n +++++++",
         _context.ipc,
@@ -37,8 +36,7 @@ pub fn transferable_input_parser<'a>(
     *_context.offset += 4;
 
     // Asset Id
-    let asset_id =
-        encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
+    let asset_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
         "\n {} -- {} \n TransferableInput -- AssetID : {:?} \n +++++++",
         _context.ipc,
@@ -53,6 +51,6 @@ pub fn transferable_input_parser<'a>(
         tx_id: tx_id.to_base58(),
         utxo_index,
         asset_id: asset_id.to_base58(),
-        input: input,
+        input,
     })
 }

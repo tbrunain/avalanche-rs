@@ -1,4 +1,3 @@
-
 use tracing::{instrument, trace};
 
 use std::borrow::Borrow;
@@ -6,7 +5,7 @@ use std::borrow::Borrow;
 use std::error::Error;
 
 use crate::avm::parser::{Context, OutputOwner};
-use crate::utils::conversion::{pop_i64, pop_i32};
+use crate::utils::conversion::{pop_i32, pop_i64};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn output_owner_parser(

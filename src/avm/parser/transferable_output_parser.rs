@@ -3,8 +3,8 @@ use tracing::{instrument, trace};
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, TransferableOutput};
 use crate::avm::parser::output_parser::output_parser;
+use crate::avm::parser::{Context, TransferableOutput};
 use crate::utils::cb58::encode;
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]

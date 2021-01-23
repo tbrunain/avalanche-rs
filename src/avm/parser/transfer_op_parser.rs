@@ -5,11 +5,15 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, TransferableOperation, UtxoIds, SECP256K1MintOp, NFTMintOp, NFTTransferOp};
-use crate::avm::parser::output_parser::{secp256k1_mint_output_parser, secp256k1_transfer_output_parser};
 use crate::avm::parser::output_owner_parser::output_owner_parser;
+use crate::avm::parser::output_parser::{
+    secp256k1_mint_output_parser, secp256k1_transfer_output_parser,
+};
+use crate::avm::parser::{
+    Context, NFTMintOp, NFTTransferOp, SECP256K1MintOp, TransferableOperation, UtxoIds,
+};
 use crate::utils::cb58::encode;
-use crate::utils::conversion::{pop_u32, pop_i32};
+use crate::utils::conversion::{pop_i32, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn transfer_op_parser(
@@ -17,8 +21,7 @@ pub fn transfer_op_parser(
     _context: &mut Context,
 ) -> Result<TransferableOperation, Box<dyn Error>> {
     // Asset Id
-    let asset_id =
-        encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
+    let asset_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
         "\n {} -- {} \n TransferOp -- AssetID : {:?} \n +++++++",
         _context.ipc,
@@ -51,13 +54,15 @@ pub fn transfer_op_parser(
             _raw_msg.len()
         );
 
-        let tx_id =
-            encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
+        let tx_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
         *_context.offset += 32;
         let utxo_index = pop_i32(&_raw_msg[*_context.offset..=(*_context.offset + 3)]);
         *_context.offset += 4;
 
-        utxo_ids.push(UtxoIds { tx_id: tx_id.to_base58(), utxo_index });
+        utxo_ids.push(UtxoIds {
+            tx_id: tx_id.to_base58(),
+            utxo_index,
+        });
 
         index += 1;
     }
@@ -325,7 +330,7 @@ pub fn nft_transfer_operation_parser(
         type_id: 13,
         address_indices,
         group_id,
-        payload: payload,
+        payload,
         output_owner,
     })
 }

@@ -4,11 +4,11 @@ use tracing::{instrument, trace};
 use std::borrow::Borrow;
 use std::error::Error;
 
-use crate::avm::parser::{Context, ExportTx};
 use crate::avm::parser::base_tx_parser::base_tx_parser;
 use crate::avm::parser::transferable_output_parser::transferable_output_parser;
-use crate::utils::conversion::pop_u32;
+use crate::avm::parser::{Context, ExportTx};
 use crate::utils::cb58::encode;
+use crate::utils::conversion::pop_u32;
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn export_tx_parser(
@@ -18,8 +18,7 @@ pub fn export_tx_parser(
     let base = base_tx_parser(_raw_msg, _context)?;
 
     // Destination chain
-    let destination_chain =
-        encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
+    let destination_chain = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
         "Export Parser - {} -- {} \n Destination chain : {:?} \n +++++++",
         _context.ipc,

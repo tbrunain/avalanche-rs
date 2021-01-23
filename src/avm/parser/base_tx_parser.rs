@@ -4,12 +4,11 @@ use std::error::Error;
 use rust_base58::ToBase58;
 use tracing::{instrument, trace};
 
-
-use crate::avm::parser::{Context, BaseTx};
-use crate::avm::parser::transferable_output_parser::transferable_output_parser;
 use crate::avm::parser::transferable_input_parser::transferable_input_parser;
-use crate::utils::conversion::{pop_i32, pop_u32};
+use crate::avm::parser::transferable_output_parser::transferable_output_parser;
+use crate::avm::parser::{BaseTx, Context};
 use crate::utils::cb58::encode;
+use crate::utils::conversion::{pop_i32, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn base_tx_parser(
@@ -36,8 +35,7 @@ pub fn base_tx_parser(
     *_context.offset += 4;
 
     // Blockchain Id
-    let blockchain_id =
-        encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
+    let blockchain_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
         "BaseTx Parser - {} -- {} \n Blockchain_id : {:?} \n +++++++",
         _context.ipc,

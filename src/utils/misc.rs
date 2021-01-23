@@ -1,6 +1,5 @@
 // ToDo Find a better name for this , was out of idea
 
-
 use ring::digest;
 use rust_base58::ToBase58;
 
@@ -26,13 +25,21 @@ pub fn generate_id(_raw_msg: &Vec<u8>) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tracing::{instrument, debug};
     use tracing::field::debug;
+    use tracing::{debug, instrument};
 
     #[test]
     fn encode() {
         //
-        let raw_bytes = Vec::from([0, 0, 0, 0, 0, 0, 7, 134, 25, 112, 255, 118, 103, 173, 145, 89, 229, 195, 241, 253, 222, 78, 157, 221, 152, 47, 127, 71, 103, 59, 49, 181, 194, 209, 153, 92, 189, 125, 0, 0, 0, 0, 0, 1, 130, 234, 0, 0, 0, 19, 0, 0, 0, 0, 95, 111, 231, 200, 0, 0, 0, 0]);
-        assert_eq!(generate_id(&raw_bytes), "ucQvpG8mfvSZJjvctiwpN9r81Aihh1nuibKT8Vh1wesEySg23", "Bouh");
+        let raw_bytes = Vec::from([
+            0, 0, 0, 0, 0, 0, 7, 134, 25, 112, 255, 118, 103, 173, 145, 89, 229, 195, 241, 253,
+            222, 78, 157, 221, 152, 47, 127, 71, 103, 59, 49, 181, 194, 209, 153, 92, 189, 125, 0,
+            0, 0, 0, 0, 1, 130, 234, 0, 0, 0, 19, 0, 0, 0, 0, 95, 111, 231, 200, 0, 0, 0, 0,
+        ]);
+        assert_eq!(
+            generate_id(&raw_bytes),
+            "ucQvpG8mfvSZJjvctiwpN9r81Aihh1nuibKT8Vh1wesEySg23",
+            "Bouh"
+        );
     }
 }

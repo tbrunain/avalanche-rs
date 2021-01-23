@@ -4,9 +4,9 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, InitialState};
 use crate::avm::parser::output_parser::output_parser;
-use crate::utils::conversion::{pop_u32, pop_i32};
+use crate::avm::parser::{Context, InitialState};
+use crate::utils::conversion::{pop_i32, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = % _context.ipc, tx_id = % _context.tx_id))]
 pub fn initial_state_parser(
