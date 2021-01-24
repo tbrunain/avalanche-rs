@@ -2,7 +2,7 @@
 authors = ["tbrunain <t.brunain@protonmail.com"]
 description = "An Avalanche SDK"
 edition = "2018"
-license = "BSD 3"
+license = "BSD-3-Clause"
 name = "avalanche-rs"
 version = "0.0.1"
 
