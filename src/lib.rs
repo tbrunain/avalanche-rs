@@ -2,8 +2,8 @@
 #[macro_use]
 extern crate serde_derive;
 
-mod avm;
-mod utils;
+pub mod avm;
+pub mod utils;
 
 #[cfg(test)]
 mod tests {

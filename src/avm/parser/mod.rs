@@ -1,20 +1,20 @@
 use std::time::SystemTime;
 use uuid::Uuid;
 
-mod base_tx_parser;
-mod create_asset_tx_parser;
-mod credential_parser;
-mod export_tx_parser;
-mod import_tx_parser;
-mod initial_state_parser;
-mod input_parser;
-mod operation_tx_parser;
-mod output_owner_parser;
-mod output_parser;
-mod signed_tx_parser;
-mod transfer_op_parser;
-mod transferable_input_parser;
-mod transferable_output_parser;
+pub mod base_tx_parser;
+pub mod create_asset_tx_parser;
+pub mod credential_parser;
+pub mod export_tx_parser;
+pub mod import_tx_parser;
+pub mod initial_state_parser;
+pub mod input_parser;
+pub mod operation_tx_parser;
+pub mod output_owner_parser;
+pub mod output_parser;
+pub mod signed_tx_parser;
+pub mod transfer_op_parser;
+pub mod transferable_input_parser;
+pub mod transferable_output_parser;
 
 /// Represent a Context object used to keep track of the ... context of a transaction being parsed
 #[derive(Debug)]
