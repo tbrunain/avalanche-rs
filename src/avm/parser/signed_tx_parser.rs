@@ -97,8 +97,6 @@ mod tests {
     use super::*;
     use std::time::SystemTime;
 
-
-
     #[test]
     fn decode_base_tx_01() {
         let raw_bytes: Vec<u8> = Vec::from([

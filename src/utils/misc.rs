@@ -26,8 +26,6 @@ pub fn generate_id(_raw_msg: &[u8]) -> String {
 mod tests {
     use super::*;
 
-
-
     #[test]
     fn encode() {
         //

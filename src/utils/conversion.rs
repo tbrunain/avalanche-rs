@@ -34,8 +34,6 @@ pub fn pop_u8(barry: &[u8]) -> u8 {
 mod tests {
     use super::*;
 
-
-
     #[test]
     fn convert_u8_01() {
         let raw_bytes: Vec<u8> = Vec::from([0]);

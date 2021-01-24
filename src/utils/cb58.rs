@@ -13,7 +13,6 @@ pub fn encode(_raw_msg: &[u8]) -> Vec<u8> {
 mod tests {
     use super::*;
 
-
     #[test]
     fn encode_01() {
         let raw_bytes: Vec<u8> = Vec::from([
