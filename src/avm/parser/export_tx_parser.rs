@@ -1,12 +1,14 @@
-use rust_base58::ToBase58;
-use tracing::{instrument, trace};
-
 use std::borrow::Borrow;
 use std::error::Error;
 
+use rust_base58::ToBase58;
+use tracing::{instrument, trace};
+
 use crate::avm::parser::base_tx_parser::{base_tx_parser, BaseTx};
-use crate::avm::parser::transferable_output_parser::{transferable_output_parser, TransferableOutput};
 use crate::avm::parser::Context;
+use crate::avm::parser::transferable_output_parser::{
+    transferable_output_parser, TransferableOutput,
+};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_u32;
 

@@ -1,4 +1,5 @@
 use std::time::SystemTime;
+
 use uuid::Uuid;
 
 pub mod base_tx_parser;
@@ -24,6 +25,6 @@ pub struct Context<'a> {
     /// Unique ID we generate at the beginning of the parsing for debug purposes
     pub uuid: Uuid,
     /// Current byte number we are parsing
-    pub offset:  &'a mut usize,
+    pub offset: &'a mut usize,
     pub parsing_started: SystemTime,
 }

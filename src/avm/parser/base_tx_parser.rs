@@ -4,9 +4,11 @@ use std::error::Error;
 use rust_base58::ToBase58;
 use tracing::{instrument, trace};
 
-use crate::avm::parser::transferable_input_parser::{transferable_input_parser, TransferableInput};
-use crate::avm::parser::transferable_output_parser::{transferable_output_parser, TransferableOutput};
 use crate::avm::parser::Context;
+use crate::avm::parser::transferable_input_parser::{transferable_input_parser, TransferableInput};
+use crate::avm::parser::transferable_output_parser::{
+    transferable_output_parser, TransferableOutput,
+};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_u32};
 
