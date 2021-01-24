@@ -8,7 +8,7 @@ use crate::avm::parser::output_parser::output_parser;
 use crate::avm::parser::{Context, InitialState};
 use crate::utils::conversion::{pop_i32, pop_u32};
 
-#[instrument(skip(_raw_msg), fields(ipc = % _context.ipc, tx_id = % _context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn initial_state_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -16,8 +16,7 @@ pub fn initial_state_parser(
     // Type Id
     let fx_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- fx_id : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n Output -- fx_id : {:?} \n +++++++",
         _context.tx_id,
         fx_id
     );
@@ -26,8 +25,7 @@ pub fn initial_state_parser(
     // Outputs Array Size
     let number_of_outputs = pop_u32(&_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "InitialState Parser - {} -- {} \n Number of outputs : {:?} \n +++++++",
-        _context.ipc,
+        "InitialState Parser -- {} \n Number of outputs : {:?} \n +++++++",
         _context.tx_id,
         number_of_outputs
     );
@@ -39,8 +37,7 @@ pub fn initial_state_parser(
 
     while index < number_of_outputs {
         trace!(
-            "InitialState Parser - {} -- {} \n Initial state - output number {} -- offset {} -- size {} \n +++++++",
-            _context.ipc,
+            "InitialState Parser -- {} \n Initial state - output number {} -- offset {} -- size {} \n +++++++",
             _context.tx_id,
             index,
             _context.offset,

@@ -7,7 +7,7 @@ use std::error::Error;
 use crate::avm::parser::{Context, Credential};
 use crate::utils::conversion::pop_i32;
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn credential_parser<'a>(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -15,8 +15,7 @@ pub fn credential_parser<'a>(
     // Type Id
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Credential -- typeID : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n Credential -- typeID : {:?} \n +++++++",
         _context.tx_id,
         type_id
     );
@@ -25,8 +24,7 @@ pub fn credential_parser<'a>(
     // Number of addresses
     let number_of_signature = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Credential parser -- Number of signature : {:?}",
-        _context.ipc,
+        "{} \n Credential parser -- Number of signature : {:?}",
         _context.tx_id,
         number_of_signature
     );
@@ -39,8 +37,7 @@ pub fn credential_parser<'a>(
     while index < number_of_signature {
         let signature = _raw_msg[*_context.offset..=(*_context.offset + 64)].to_vec();
         trace!(
-            "\n {} -- {} \n Credential parser -- Signature number {} {:?}",
-            _context.ipc,
+            "{} \n Credential parser -- Signature number {} {:?}",
             _context.tx_id,
             index,
             signature

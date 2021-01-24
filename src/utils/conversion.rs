@@ -33,8 +33,8 @@ pub fn pop_u8(barry: &[u8]) -> u8 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tracing::field::debug;
-    use tracing::{debug, instrument};
+
+
 
     #[test]
     fn convert_u8_01() {

@@ -7,7 +7,7 @@ use std::error::Error;
 use crate::avm::parser::{Context, SECP256KTransferInput};
 use crate::utils::conversion::{pop_i32, pop_i64};
 
-#[instrument(skip(_raw_msg), fields(ipc = % _context.ipc, tx_id = % _context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn input_parser<'a>(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -15,8 +15,7 @@ pub fn input_parser<'a>(
     // Type Id
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Input parser -- typeID : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n Input parser -- typeID : {:?} \n +++++++",
         _context.tx_id,
         type_id
     );
@@ -30,8 +29,8 @@ pub fn input_parser<'a>(
         5 => input = secp256k1_transfer_input_parser(_raw_msg, _context)?,
         _ => {
             error!(
-                "\n {} -- {} \n This type id {} for this input is not expected \n Dump of the tx bytes : {:?} \n +++++++",
-                _context.ipc,
+                "{} \n This type id {} for this input is not expected \n Dump of the tx bytes : {:?} \n +++++++",
+
                 _context.tx_id,
                 type_id,
                 _raw_msg
@@ -50,8 +49,7 @@ pub fn secp256k1_transfer_input_parser(
     // Amount
     let amount = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
     trace!(
-        "\n {} -- {} \n Input -- SECP256K1TransferInput-- Amount : {:?}",
-        _context.ipc,
+        "{} \n Input -- SECP256K1TransferInput-- Amount : {:?}",
         _context.tx_id,
         amount
     );
@@ -60,8 +58,7 @@ pub fn secp256k1_transfer_input_parser(
     // Number of addresses
     let number_of_address = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Input -- SECP256K1TransferInput -- Number of addresses : {:?}",
-        _context.ipc,
+        "{} \n Input -- SECP256K1TransferInput -- Number of addresses : {:?}",
         _context.tx_id,
         number_of_address
     );
@@ -74,8 +71,7 @@ pub fn secp256k1_transfer_input_parser(
     while index < number_of_address {
         let address_indice = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
         trace!(
-            "\n {} -- {} \n Input -- SECP256K1TransferInput Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n Input -- SECP256K1TransferInput Addresses number {} {:?}",
             _context.tx_id,
             index,
             address_indice

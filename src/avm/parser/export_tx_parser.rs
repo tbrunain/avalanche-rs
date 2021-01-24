@@ -10,7 +10,7 @@ use crate::avm::parser::{Context, ExportTx};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_u32;
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn export_tx_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -20,8 +20,7 @@ pub fn export_tx_parser(
     // Destination chain
     let destination_chain = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
-        "Export Parser - {} -- {} \n Destination chain : {:?} \n +++++++",
-        _context.ipc,
+        "Export Parser -- {} \n Destination chain : {:?} \n +++++++",
         _context.tx_id,
         destination_chain
     );
@@ -30,8 +29,7 @@ pub fn export_tx_parser(
     // Inputs Array Size
     let number_of_outputs = pop_u32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "ExportTx Parser - {} -- {} \n Output' array size : {:?} \n +++++++",
-        _context.ipc,
+        "ExportTx Parser -- {} \n Output' array size : {:?} \n +++++++",
         _context.tx_id,
         number_of_outputs
     );
@@ -43,8 +41,7 @@ pub fn export_tx_parser(
 
     while index < number_of_outputs {
         trace!(
-            "ExportTx Parser - {} -- {} \n Output number {} -- bytes {:?} \n +++++++",
-            _context.ipc,
+            "ExportTx Parser -- {} \n Output number {} -- bytes {:?} \n +++++++",
             _context.tx_id,
             index,
             &_raw_msg[*_context.offset..=(*_context.offset + 31)]

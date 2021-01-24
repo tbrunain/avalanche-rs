@@ -7,7 +7,7 @@ use crate::avm::parser::output_parser::output_parser;
 use crate::avm::parser::{Context, TransferableOutput};
 use crate::utils::cb58::encode;
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn transferable_output_parser<'a>(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -15,8 +15,7 @@ pub fn transferable_output_parser<'a>(
     // Asset Id
     let asset_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
-        "\n {} -- {} \n TransferableOutput -- AssetID : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n TransferableOutput -- AssetID : {:?} \n +++++++",
         _context.tx_id,
         asset_id
     );

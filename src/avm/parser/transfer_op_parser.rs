@@ -15,7 +15,7 @@ use crate::avm::parser::{
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_u32};
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn transfer_op_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -23,8 +23,7 @@ pub fn transfer_op_parser(
     // Asset Id
     let asset_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
-        "\n {} -- {} \n TransferOp -- AssetID : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n TransferOp -- AssetID : {:?} \n +++++++",
         _context.tx_id,
         asset_id
     );
@@ -33,8 +32,7 @@ pub fn transfer_op_parser(
     // Ops Array Size
     let number_of_utxo_ids = pop_u32(&_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "TransferOp Parser - {} -- {} \n Number of utxo_ids : {:?} \n +++++++",
-        _context.ipc,
+        "TransferOp Parser -- {} \n Number of utxo_ids : {:?} \n +++++++",
         _context.tx_id,
         number_of_utxo_ids
     );
@@ -46,8 +44,7 @@ pub fn transfer_op_parser(
 
     while index < number_of_utxo_ids {
         trace!(
-            "TransferOp Parser - {} -- {} \n UTXO_ID number {}\n {} \n {}     +++++++",
-            _context.ipc,
+            "TransferOp Parser -- {} \n UTXO_ID number {}\n {} \n {}     +++++++",
             _context.tx_id,
             index,
             _context.offset,
@@ -70,8 +67,7 @@ pub fn transfer_op_parser(
     // Type Id
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferOp -- typeID : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n TransferOp -- typeID : {:?} \n +++++++",
         _context.tx_id,
         type_id
     );
@@ -98,7 +94,7 @@ pub fn transfer_op_parser(
     })
 }
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn secp256k1_mint_operation_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -107,8 +103,7 @@ pub fn secp256k1_mint_operation_parser(
     let number_of_address_indice =
         pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferOp -- SECP256K1MintOp -- Threshold : {:?}",
-        _context.ipc,
+        "{} \n TransferOp -- SECP256K1MintOp -- Threshold : {:?}",
         _context.tx_id,
         number_of_address_indice
     );
@@ -121,8 +116,7 @@ pub fn secp256k1_mint_operation_parser(
     while index < number_of_address_indice {
         let address_indice = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
         trace!(
-            "\n {} -- {} \n TransferOp -- SECP256K1MintOp Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n TransferOp -- SECP256K1MintOp Addresses number {} {:?}",
             _context.tx_id,
             index,
             address_indice
@@ -143,7 +137,7 @@ pub fn secp256k1_mint_operation_parser(
     })
 }
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn nft_mint_operation_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -152,8 +146,7 @@ pub fn nft_mint_operation_parser(
     let number_of_address_indice =
         pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferOp -- NftMintOp -- Numnber of address indices : {:?}",
-        _context.ipc,
+        "{} \n TransferOp -- NftMintOp -- Numnber of address indices : {:?}",
         _context.tx_id,
         number_of_address_indice
     );
@@ -166,8 +159,7 @@ pub fn nft_mint_operation_parser(
     while index < number_of_address_indice {
         let address_indice = pop_u32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
         trace!(
-            "\n {} -- {} \n TransferOp -- NftMintOp Addresses indice number {} {:?}",
-            _context.ipc,
+            "{} \n TransferOp -- NftMintOp Addresses indice number {} {:?}",
             _context.tx_id,
             index,
             address_indice
@@ -180,8 +172,7 @@ pub fn nft_mint_operation_parser(
     // Group ID
     let group_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferOp -- NftMintOp -- Group id : {:?}",
-        _context.ipc,
+        "{} \n TransferOp -- NftMintOp -- Group id : {:?}",
         _context.tx_id,
         group_id
     );
@@ -190,8 +181,7 @@ pub fn nft_mint_operation_parser(
     // Payload
     let payload_size = pop_u32(&_raw_msg[*_context.offset..=(*_context.offset + 3)]) as usize;
     trace!(
-        "\n {} -- {} \n TransferOp --  NftMintOp Parser -- Payload size: {:?}",
-        _context.ipc,
+        "{} \n TransferOp --  NftMintOp Parser -- Payload size: {:?}",
         _context.tx_id,
         payload_size
     );
@@ -201,14 +191,12 @@ pub fn nft_mint_operation_parser(
     let mut payload = Vec::new();
     if payload_size == 0 {
         trace!(
-            "\n {} -- {} \n TransferOp -- NftMintOp Parser -- payload_size is empty ",
-            _context.ipc,
+            "{} \n TransferOp -- NftMintOp Parser -- payload_size is empty ",
             _context.tx_id
         );
     } else {
         trace!(
-            "\n {} -- {} \n TransferOp -- NftMintOp Parser -- payload content : {:?}",
-            _context.ipc,
+            "{} \n TransferOp -- NftMintOp Parser -- payload content : {:?}",
             _context.tx_id,
             &_raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_base58()
         );
@@ -220,8 +208,7 @@ pub fn nft_mint_operation_parser(
     let number_of_output_owner =
         pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferOp -- NftMintOp -- Number of output owner : {:?}",
-        _context.ipc,
+        "{} \n TransferOp -- NftMintOp -- Number of output owner : {:?}",
         _context.tx_id,
         number_of_output_owner
     );
@@ -233,8 +220,7 @@ pub fn nft_mint_operation_parser(
 
     while index < number_of_output_owner {
         trace!(
-            "\n {} -- {} \n TransferOp -- NftMintOp Outputt ownerr number {} ",
-            _context.ipc,
+            "{} \n TransferOp -- NftMintOp Outputt ownerr number {} ",
             _context.tx_id,
             index
         );
@@ -251,7 +237,7 @@ pub fn nft_mint_operation_parser(
     })
 }
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn nft_transfer_operation_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -260,8 +246,7 @@ pub fn nft_transfer_operation_parser(
     let number_of_address_indice =
         pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferOp -- NftTransferOp -- Number of addess indices : {:?}",
-        _context.ipc,
+        "{} \n TransferOp -- NftTransferOp -- Number of addess indices : {:?}",
         _context.tx_id,
         number_of_address_indice
     );
@@ -274,8 +259,7 @@ pub fn nft_transfer_operation_parser(
     while index < number_of_address_indice {
         let address_indice = pop_u32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
         trace!(
-            "\n {} -- {} \n TransferOp -- NftTransferOp Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n TransferOp -- NftTransferOp Addresses number {} {:?}",
             _context.tx_id,
             index,
             address_indice
@@ -288,8 +272,7 @@ pub fn nft_transfer_operation_parser(
     // Group ID
     let group_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferOp -- NftTransferOp -- Group id : {:?}",
-        _context.ipc,
+        "{} \n TransferOp -- NftTransferOp -- Group id : {:?}",
         _context.tx_id,
         group_id
     );
@@ -298,8 +281,7 @@ pub fn nft_transfer_operation_parser(
     // Payload
     let payload_size = pop_u32(&_raw_msg[*_context.offset..=(*_context.offset + 3)]) as usize;
     trace!(
-        "\n {} -- {} \n TransferOp -- NftTransferOp Parser -- Payload size: {:?}",
-        _context.ipc,
+        "{} \n TransferOp -- NftTransferOp Parser -- Payload size: {:?}",
         _context.tx_id,
         payload_size
     );
@@ -309,14 +291,12 @@ pub fn nft_transfer_operation_parser(
     let mut payload = Vec::new();
     if payload_size == 0 {
         trace!(
-            "\n {} -- {} \n TransferOp -- NftTransferOp Parser -- payload_size is empty ",
-            _context.ipc,
+            "{} \n TransferOp -- NftTransferOp Parser -- payload_size is empty ",
             _context.tx_id
         );
     } else {
         trace!(
-            "\n {} -- {} \n TransferOp -- NftTransferOp Parser -- payload content : {:?}",
-            _context.ipc,
+            "{} \n TransferOp -- NftTransferOp Parser -- payload content : {:?}",
             _context.tx_id,
             &_raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_base58()
         );

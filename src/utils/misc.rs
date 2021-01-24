@@ -25,8 +25,8 @@ pub fn generate_id(_raw_msg: &[u8]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tracing::field::debug;
-    use tracing::{debug, instrument};
+
+
 
     #[test]
     fn encode() {

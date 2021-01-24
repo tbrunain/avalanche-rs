@@ -14,15 +14,14 @@ use crate::utils::conversion::{pop_i16, pop_i32, pop_u32};
 use crate::utils::misc::generate_id;
 
 /// Will parse a Vector of bytes (u8) and return a `SignedTx`
-#[instrument(skip(_raw_msg), fields(ipc = % _context.ipc, tx_id = % _context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn signed_tx_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<SignedTx, Box<dyn Error>> {
     let codec_id = pop_i16(_raw_msg[*_context.offset..=(*_context.offset + 1)].borrow());
     trace!(
-        "SignedTx Parser - Ipc: {} -- TxID: {} \n Codec_id : {:?} \n +++++++",
-        _context.ipc,
+        "SignedTx Parser-- TxID: {} \n Codec_id : {:?} \n +++++++",
         _context.tx_id,
         codec_id
     );
@@ -30,8 +29,7 @@ pub fn signed_tx_parser(
 
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "SignedTx Parser - Ipc: {} -- TxID: {} \n Type_id : {:?} \n +++++++",
-        _context.ipc,
+        "SignedTx Parser-- TxID: {} \n Type_id : {:?} \n +++++++",
         _context.tx_id,
         type_id
     );
@@ -60,8 +58,7 @@ pub fn signed_tx_parser(
     let number_of_credentials: u32 =
         pop_u32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "SignedTx Parser - {} -- {} \n Credential number : {:?} \n +++++++",
-        _context.ipc,
+        "SignedTx Parser -- {} \n Credential number : {:?} \n +++++++",
         _context.tx_id,
         number_of_credentials
     );
@@ -72,8 +69,7 @@ pub fn signed_tx_parser(
     let mut credentials = Vec::new();
     while index < number_of_credentials {
         trace!(
-            "SignedTx Parser - {} -- {} \n Credential number {} \n +++++++",
-            _context.ipc,
+            "SignedTx Parser -- {} \n Credential number {} \n +++++++",
             _context.tx_id,
             index
         );
@@ -100,8 +96,8 @@ pub fn signed_tx_parser(
 mod tests {
     use super::*;
     use std::time::SystemTime;
-    use tracing::field::debug;
-    use tracing::{debug, instrument};
+
+
 
     #[test]
     fn decode_base_tx_01() {
@@ -128,12 +124,10 @@ mod tests {
         let tx = signed_tx_parser(
             &raw_bytes,
             &mut Context {
-                ipc: "ipc-socket",
                 tx_id: "a_tx",
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                thread_number: 0,
             },
         )
         .unwrap();
@@ -248,12 +242,10 @@ mod tests {
         let tx = signed_tx_parser(
             &raw_bytes,
             &mut Context {
-                ipc: "ipc-socket",
                 tx_id: "a_tx",
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                thread_number: 0,
             },
         )
         .unwrap();
@@ -319,12 +311,10 @@ mod tests {
         let tx = signed_tx_parser(
             &raw_bytes,
             &mut Context {
-                ipc: "ipc-socket",
                 tx_id: "a_tx",
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                thread_number: 0,
             },
         )
         .unwrap();
@@ -386,12 +376,10 @@ mod tests {
         let tx = signed_tx_parser(
             &raw_bytes,
             &mut Context {
-                ipc: "ipc-socket",
                 tx_id: "a_tx",
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                thread_number: 0,
             },
         )
         .unwrap();
@@ -496,12 +484,10 @@ mod tests {
         let tx = signed_tx_parser(
             &raw_bytes,
             &mut Context {
-                ipc: "ipc-socket",
                 tx_id: "a_tx",
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                thread_number: 0,
             },
         )
         .unwrap();

@@ -12,8 +12,7 @@ pub fn encode(_raw_msg: &[u8]) -> Vec<u8> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tracing::field::debug;
-    use tracing::{debug, instrument};
+
 
     #[test]
     fn encode_01() {

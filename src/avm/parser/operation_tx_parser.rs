@@ -8,7 +8,7 @@ use crate::avm::parser::transfer_op_parser::transfer_op_parser;
 use crate::avm::parser::{Context, OperationTx};
 use crate::utils::conversion::pop_u32;
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn operation_tx_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -19,8 +19,7 @@ pub fn operation_tx_parser(
         pop_u32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow()) as usize;
     *_context.offset += 4;
     trace!(
-        "Ipc: {} -- TxID: {} \n Operation -- Transfer Operation number {}",
-        _context.ipc,
+        "TxID: {} \n Operation -- Transfer Operation number {}",
         _context.tx_id,
         transfer_op_number
     );

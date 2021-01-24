@@ -19,8 +19,6 @@ mod transferable_output_parser;
 /// Represent a Context object used to keep track of the ... context of a transaction being parsed
 #[derive(Debug)]
 pub struct Context<'a> {
-    /// From which IPC socket this tx is coming from
-    pub ipc: &'a str,
     /// Transaction ID of this tx
     pub tx_id: &'a str,
     /// Unique ID we generate at the beginning of the parsing for debug purposes
@@ -28,7 +26,6 @@ pub struct Context<'a> {
     /// Current byte number we are parsing
     pub offset: &'a mut usize,
     pub parsing_started: SystemTime,
-    pub thread_number: i32,
 }
 
 /// https://docs.avax.network/build/references/avm-transaction-serialization#credentials

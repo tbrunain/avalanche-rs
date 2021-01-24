@@ -8,7 +8,7 @@ use std::error::Error;
 use crate::avm::parser::{Context, Output};
 use crate::utils::conversion::{pop_i32, pop_i64, pop_u32};
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn output_parser(_raw_msg: &[u8], _context: &mut Context) -> Result<Output, Box<dyn Error>> {
     // Type Id
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
@@ -24,8 +24,8 @@ pub fn output_parser(_raw_msg: &[u8], _context: &mut Context) -> Result<Output, 
         11 => output = nft_transfer_output_parser(_raw_msg, _context)?,
         _ => {
             error!(
-                "\n {} -- {} \n This type id {} for this output is not expected \n Dump of the tx bytes : {:?} \n +++++++",
-                _context.ipc,
+                "{} \n This type id {} for this output is not expected \n Dump of the tx bytes : {:?} \n +++++++",
+
                 _context.tx_id,
                 type_id,
                 _raw_msg
@@ -37,7 +37,7 @@ pub fn output_parser(_raw_msg: &[u8], _context: &mut Context) -> Result<Output, 
     Ok(output)
 }
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn secp256k1_mint_output_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -45,8 +45,7 @@ pub fn secp256k1_mint_output_parser(
     // Locktime
     let locktime = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1MintOutput -- Locktime : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1MintOutput -- Locktime : {:?}",
         _context.tx_id,
         locktime
     );
@@ -55,8 +54,7 @@ pub fn secp256k1_mint_output_parser(
     // Threshold
     let threshold = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1MintOutput -- Threshold : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1MintOutput -- Threshold : {:?}",
         _context.tx_id,
         threshold
     );
@@ -65,8 +63,7 @@ pub fn secp256k1_mint_output_parser(
     // Number of addresses
     let number_of_address = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1MintOutput -- Number of addresses : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1MintOutput -- Number of addresses : {:?}",
         _context.tx_id,
         number_of_address
     );
@@ -79,8 +76,7 @@ pub fn secp256k1_mint_output_parser(
     while index < number_of_address {
         let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
         trace!(
-            "\n {} -- {} \n Output -- SECP256K1MintOutput -- Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n Output -- SECP256K1MintOutput -- Addresses number {} {:?}",
             _context.tx_id,
             index,
             address
@@ -101,7 +97,7 @@ pub fn secp256k1_mint_output_parser(
     })
 }
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn secp256k1_transfer_output_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -109,8 +105,7 @@ pub fn secp256k1_transfer_output_parser(
     // Amount
     let amount = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1TransferOutput -- Parser -- Amount : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1TransferOutput -- Parser -- Amount : {:?}",
         _context.tx_id,
         amount
     );
@@ -119,8 +114,7 @@ pub fn secp256k1_transfer_output_parser(
     // Locktime
     let locktime = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1TransferOutput -- Parser -- Locktime : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1TransferOutput -- Parser -- Locktime : {:?}",
         _context.tx_id,
         locktime
     );
@@ -129,8 +123,7 @@ pub fn secp256k1_transfer_output_parser(
     // Threshold
     let threshold = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1TransferOutput -- Parser -- Threshold : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1TransferOutput -- Parser -- Threshold : {:?}",
         _context.tx_id,
         threshold
     );
@@ -139,8 +132,7 @@ pub fn secp256k1_transfer_output_parser(
     // Number of addresses
     let number_of_address = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1TransferOutput -- Parser -- Number of addresses : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1TransferOutput -- Parser -- Number of addresses : {:?}",
         _context.tx_id,
         number_of_address
     );
@@ -153,8 +145,7 @@ pub fn secp256k1_transfer_output_parser(
     while index < number_of_address {
         let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
         trace!(
-            "\n {} -- {} \n Output -- SECP256K1TransferOutput -- Parser Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n Output -- SECP256K1TransferOutput -- Parser Addresses number {} {:?}",
             _context.tx_id,
             index,
             address
@@ -175,7 +166,7 @@ pub fn secp256k1_transfer_output_parser(
     })
 }
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn nft_mint_output_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -183,8 +174,7 @@ pub fn nft_mint_output_parser(
     // Group Id
     let group_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1MintOutput -- Group Id : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1MintOutput -- Group Id : {:?}",
         _context.tx_id,
         group_id
     );
@@ -193,8 +183,7 @@ pub fn nft_mint_output_parser(
     // Locktime
     let locktime = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1MintOutput Parser -- Locktime : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1MintOutput Parser -- Locktime : {:?}",
         _context.tx_id,
         locktime
     );
@@ -203,8 +192,7 @@ pub fn nft_mint_output_parser(
     // Threshold
     let threshold = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1MintOutput Parser -- Threshold : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1MintOutput Parser -- Threshold : {:?}",
         _context.tx_id,
         threshold
     );
@@ -213,8 +201,7 @@ pub fn nft_mint_output_parser(
     // Number of addresses
     let number_of_address = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- SECP256K1MintOutput Parser -- Number of addresses : {:?}",
-        _context.ipc,
+        "{} \n Output -- SECP256K1MintOutput Parser -- Number of addresses : {:?}",
         _context.tx_id,
         number_of_address
     );
@@ -227,8 +214,7 @@ pub fn nft_mint_output_parser(
     while index < number_of_address {
         let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
         trace!(
-            "\n {} -- {} \n Output -- SECP256K1MintOutput Parser -- Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n Output -- SECP256K1MintOutput Parser -- Addresses number {} {:?}",
             _context.tx_id,
             index,
             address
@@ -249,7 +235,7 @@ pub fn nft_mint_output_parser(
     })
 }
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn nft_transfer_output_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -257,8 +243,7 @@ pub fn nft_transfer_output_parser(
     // Group Id
     let group_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- NftTransferOutput Parser -- Group Id : {:?}",
-        _context.ipc,
+        "{} \n Output -- NftTransferOutput Parser -- Group Id : {:?}",
         _context.tx_id,
         group_id
     );
@@ -267,8 +252,7 @@ pub fn nft_transfer_output_parser(
     // Payload
     let payload_size = pop_u32(&_raw_msg[*_context.offset..=(*_context.offset + 3)]) as usize;
     trace!(
-        "\n {} -- {} \n Output -- NftTransferOutput Parser -- Payload size: {:?}",
-        _context.ipc,
+        "{} \n Output -- NftTransferOutput Parser -- Payload size: {:?}",
         _context.tx_id,
         payload_size
     );
@@ -278,14 +262,12 @@ pub fn nft_transfer_output_parser(
     let mut payload = Vec::new();
     if payload_size == 0 {
         trace!(
-            "\n {} -- {} \n Output -- NftTransferOutput Parser -- payload_size is empty ",
-            _context.ipc,
+            "{} \n Output -- NftTransferOutput Parser -- payload_size is empty ",
             _context.tx_id
         );
     } else {
         trace!(
-            "\n {} -- {} \n Output -- NftTransferOutput Parser -- payload content : {:?}",
-            _context.ipc,
+            "{} \n Output -- NftTransferOutput Parser -- payload content : {:?}",
             _context.tx_id,
             &_raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_base58()
         );
@@ -296,8 +278,7 @@ pub fn nft_transfer_output_parser(
     // Locktime
     let locktime = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- NftTransferOutput Parser -- Locktime : {:?}",
-        _context.ipc,
+        "{} \n Output -- NftTransferOutput Parser -- Locktime : {:?}",
         _context.tx_id,
         locktime
     );
@@ -306,8 +287,7 @@ pub fn nft_transfer_output_parser(
     // Threshold
     let threshold = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- NftTransferOutput Parser -- Threshold : {:?}",
-        _context.ipc,
+        "{} \n Output -- NftTransferOutput Parser -- Threshold : {:?}",
         _context.tx_id,
         threshold
     );
@@ -316,8 +296,7 @@ pub fn nft_transfer_output_parser(
     // Number of addresses
     let number_of_address = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output -- NftTransferOutput Parser -- Number of addresses : {:?}",
-        _context.ipc,
+        "{} \n Output -- NftTransferOutput Parser -- Number of addresses : {:?}",
         _context.tx_id,
         number_of_address
     );
@@ -330,8 +309,7 @@ pub fn nft_transfer_output_parser(
     while index < number_of_address {
         let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
         trace!(
-            "\n {} -- {} \n Output -- NftTransferOutput Parser -- Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n Output -- NftTransferOutput Parser -- Addresses number {} {:?}",
             _context.tx_id,
             index,
             address

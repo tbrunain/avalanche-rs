@@ -8,7 +8,7 @@ use crate::avm::parser::initial_state_parser::initial_state_parser;
 use crate::avm::parser::{Context, CreateAssetTx};
 use crate::utils::conversion::{pop_u16, pop_u32, pop_u8};
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn create_asset_tx_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -18,8 +18,7 @@ pub fn create_asset_tx_parser(
     let name_length = pop_u16(_raw_msg[*_context.offset..=(*_context.offset + 1)].borrow());
     *_context.offset += 2;
     trace!(
-        "Ipc: {} -- TxID: {} \n CreateAssetTx -- name_length : {:?} \n =======",
-        _context.ipc,
+        "TxID: {} \n CreateAssetTx -- name_length : {:?} \n =======",
         _context.tx_id,
         name_length
     );
@@ -28,8 +27,7 @@ pub fn create_asset_tx_parser(
         &_raw_msg[*_context.offset..=(*_context.offset + usize::from(name_length))],
     )?;
     trace!(
-        "Ipc: {} -- TxID: {} \n CreateAssetTx -- name : {:?} \n =======",
-        _context.ipc,
+        "TxID: {} \n CreateAssetTx -- name : {:?} \n =======",
         _context.tx_id,
         name
     );
@@ -37,8 +35,7 @@ pub fn create_asset_tx_parser(
 
     let symbol_length = pop_u16(_raw_msg[*_context.offset..=(*_context.offset + 1)].borrow());
     trace!(
-        "Ipc: {} -- TxID: {} \n CreateAssetTx -- symbol_length : {:?} \n =======",
-        _context.ipc,
+        "TxID: {} \n CreateAssetTx -- symbol_length : {:?} \n =======",
         _context.tx_id,
         symbol_length
     );
@@ -48,8 +45,7 @@ pub fn create_asset_tx_parser(
         &_raw_msg[*_context.offset..=(*_context.offset + usize::from(symbol_length))],
     )?;
     trace!(
-        "Ipc: {} -- TxID: {} \n CreateAssetTx -- symbol : {:?} \n =======",
-        _context.ipc,
+        "TxID: {} \n CreateAssetTx -- symbol : {:?} \n =======",
         _context.tx_id,
         symbol
     );
@@ -58,8 +54,7 @@ pub fn create_asset_tx_parser(
     let denomination_raw = pop_u8(_raw_msg[*_context.offset..=(*_context.offset)].borrow());
     let denomination = denomination_raw as i16;
     trace!(
-        "Ipc: {} -- TxID: {} \n CreateAssetTx -- denomination : {:?} \n =======",
-        _context.ipc,
+        "TxID: {} \n CreateAssetTx -- denomination : {:?} \n =======",
         _context.tx_id,
         denomination
     );
@@ -69,8 +64,7 @@ pub fn create_asset_tx_parser(
         pop_u32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow()) as usize;
     *_context.offset += 4;
     trace!(
-        "Ipc: {} -- TxID: {} \n CreateAssetTx -- Initial State number {} \n =======",
-        _context.ipc,
+        "TxID: {} \n CreateAssetTx -- Initial State number {} \n =======",
         _context.tx_id,
         initial_states_number
     );

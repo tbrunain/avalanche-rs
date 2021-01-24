@@ -10,7 +10,7 @@ use crate::avm::parser::{Context, TransferableInput};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_i32;
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn transferable_input_parser<'a>(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -18,8 +18,7 @@ pub fn transferable_input_parser<'a>(
     // Tx Id
     let tx_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
-        "\n {} -- {} \n TransferableInput -- TxId : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n TransferableInput -- TxId : {:?} \n +++++++",
         _context.tx_id,
         tx_id
     );
@@ -28,8 +27,7 @@ pub fn transferable_input_parser<'a>(
     // UTXO Index Id
     let utxo_index = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n TransferableInput -- utxo_index : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n TransferableInput -- utxo_index : {:?} \n +++++++",
         _context.tx_id,
         utxo_index
     );
@@ -38,8 +36,7 @@ pub fn transferable_input_parser<'a>(
     // Asset Id
     let asset_id = encode(&_raw_msg[*_context.offset..=(*_context.offset + 31)].to_vec());
     trace!(
-        "\n {} -- {} \n TransferableInput -- AssetID : {:?} \n +++++++",
-        _context.ipc,
+        "{} \n TransferableInput -- AssetID : {:?} \n +++++++",
         _context.tx_id,
         asset_id
     );

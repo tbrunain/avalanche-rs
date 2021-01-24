@@ -7,7 +7,7 @@ use std::error::Error;
 use crate::avm::parser::{Context, OutputOwner};
 use crate::utils::conversion::{pop_i32, pop_i64};
 
-#[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
+#[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn output_owner_parser(
     _raw_msg: &[u8],
     _context: &mut Context,
@@ -15,8 +15,7 @@ pub fn output_owner_parser(
     // Locktime
     let locktime = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
     trace!(
-        "\n {} -- {} \n Output Owner -- Locktime : {:?}",
-        _context.ipc,
+        "{} \n Output Owner -- Locktime : {:?}",
         _context.tx_id,
         locktime
     );
@@ -25,8 +24,7 @@ pub fn output_owner_parser(
     // Threshold
     let threshold = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output Owner -- Threshold : {:?}",
-        _context.ipc,
+        "{} \n Output Owner -- Threshold : {:?}",
         _context.tx_id,
         threshold
     );
@@ -35,8 +33,7 @@ pub fn output_owner_parser(
     // Number of addresses
     let number_of_address = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
-        "\n {} -- {} \n Output Owner -- Number of addresses : {:?}",
-        _context.ipc,
+        "{} \n Output Owner -- Number of addresses : {:?}",
         _context.tx_id,
         number_of_address
     );
@@ -49,8 +46,7 @@ pub fn output_owner_parser(
     while index < number_of_address {
         let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
         trace!(
-            "\n {} -- {} \n Output Owner -- Addresses number {} {:?}",
-            _context.ipc,
+            "{} \n Output Owner -- Addresses number {} {:?}",
             _context.tx_id,
             index,
             address
