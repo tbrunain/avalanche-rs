@@ -11,10 +11,7 @@ use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
-pub fn base_tx_parser(
-    _raw_msg: &[u8],
-    _context: &mut Context,
-) -> Result<BaseTx, Box<dyn Error>> {
+pub fn base_tx_parser(_raw_msg: &[u8], _context: &mut Context) -> Result<BaseTx, Box<dyn Error>> {
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!(
         "BaseTx Parser - Ipc: {} -- TxID: {} \n Type_id : {:?} \n +++++++",
