@@ -10,7 +10,7 @@ use rust_base58::ToBase58;
 /// 3) Take the last 4 bytes of the hash from step 2 and push hash from step 1 et those 4 bytes
 /// in an array .
 /// Then return a base_58 string
-pub fn generate_id(_raw_msg: &Vec<u8>) -> String {
+pub fn generate_id(_raw_msg: &[u8]) -> String {
     let mut tx_id = Vec::new();
     let tx_hash = digest::digest(&digest::SHA256, &_raw_msg);
     tx_id.extend(tx_hash.as_ref().iter().cloned());

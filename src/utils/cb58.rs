@@ -1,8 +1,8 @@
 use ring::digest;
 
 /// Take a Vector of u8 (bytes) as input and encode it as a base58 string .
-pub fn encode(_raw_msg: &Vec<u8>) -> Vec<u8> {
-    let mut generated = _raw_msg.clone();
+pub fn encode(_raw_msg: &[u8]) -> Vec<u8> {
+    let mut generated = _raw_msg.to_owned();
     let hash_of_tx_hash = digest::digest(&digest::SHA256, generated.as_ref());
     let (_, right) = hash_of_tx_hash.as_ref().split_at(28);
     generated.extend(right.iter().cloned());

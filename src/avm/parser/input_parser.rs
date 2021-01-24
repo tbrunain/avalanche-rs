@@ -9,7 +9,7 @@ use crate::utils::conversion::{pop_i32, pop_i64};
 
 #[instrument(skip(_raw_msg), fields(ipc = % _context.ipc, tx_id = % _context.tx_id))]
 pub fn input_parser<'a>(
-    _raw_msg: &'a Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<SECP256KTransferInput, Box<dyn Error>> {
     // Type Id
@@ -43,8 +43,8 @@ pub fn input_parser<'a>(
     Ok(input)
 }
 
-pub fn secp256k1_transfer_input_parser<'a>(
-    _raw_msg: &'a Vec<u8>,
+pub fn secp256k1_transfer_input_parser(
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<SECP256KTransferInput, Box<dyn Error>> {
     // Amount

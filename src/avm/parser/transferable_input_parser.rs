@@ -12,7 +12,7 @@ use crate::utils::conversion::pop_i32;
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn transferable_input_parser<'a>(
-    _raw_msg: &'a Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<TransferableInput, Box<dyn Error>> {
     // Tx Id

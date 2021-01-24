@@ -54,7 +54,7 @@ pub fn signed_tx_parser(
         export = Some(export_tx_parser(_raw_msg, _context)?);
     }
 
-    let unsigned_tx_offset = _context.offset.clone();
+    let unsigned_tx_offset = *_context.offset;
 
     // Number of credentials
     let number_of_credentials: u32 =

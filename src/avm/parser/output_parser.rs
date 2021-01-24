@@ -9,7 +9,7 @@ use crate::avm::parser::{Context, Output};
 use crate::utils::conversion::{pop_i32, pop_i64, pop_u32};
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
-pub fn output_parser(_raw_msg: &Vec<u8>, _context: &mut Context) -> Result<Output, Box<dyn Error>> {
+pub fn output_parser(_raw_msg: &[u8], _context: &mut Context) -> Result<Output, Box<dyn Error>> {
     // Type Id
     let type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
 
@@ -28,7 +28,7 @@ pub fn output_parser(_raw_msg: &Vec<u8>, _context: &mut Context) -> Result<Outpu
                 _context.ipc,
                 _context.tx_id,
                 type_id,
-                _raw_msg.as_slice()
+                _raw_msg
             );
             panic!("Unsupported")
         }

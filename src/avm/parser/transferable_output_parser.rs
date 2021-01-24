@@ -9,7 +9,7 @@ use crate::utils::cb58::encode;
 
 #[instrument(skip(_raw_msg), fields(ipc = %_context.ipc, tx_id = %_context.tx_id))]
 pub fn transferable_output_parser<'a>(
-    _raw_msg: &'a Vec<u8>,
+    _raw_msg: &[u8],
     _context: &mut Context,
 ) -> Result<TransferableOutput, Box<dyn Error>> {
     // Asset Id

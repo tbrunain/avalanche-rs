@@ -56,7 +56,7 @@ pub fn create_asset_tx_parser(
     *_context.offset += usize::from(symbol_length);
 
     let denomination_raw = pop_u8(_raw_msg[*_context.offset..=(*_context.offset)].borrow());
-    let denomination = ((0) << 8) | denomination_raw as i16;
+    let denomination = denomination_raw as i16;
     trace!(
         "Ipc: {} -- TxID: {} \n CreateAssetTx -- denomination : {:?} \n =======",
         _context.ipc,
