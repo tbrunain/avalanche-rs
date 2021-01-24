@@ -4,11 +4,11 @@ use std::error::Error;
 use rust_base58::ToBase58;
 use tracing::{instrument, trace};
 
-use crate::avm::parser::Context;
 use crate::avm::parser::output_owner_parser::{output_owner_parser, OutputOwner};
 use crate::avm::parser::output_parser::{
-    Output, secp256k1_mint_output_parser, secp256k1_transfer_output_parser,
+    secp256k1_mint_output_parser, secp256k1_transfer_output_parser, Output,
 };
+use crate::avm::parser::Context;
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_u32};
 
