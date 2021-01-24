@@ -4,8 +4,15 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, OutputOwner};
+use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_i32, pop_i64};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct OutputOwner {
+    pub locktime: i64,
+    pub threshold: i32,
+    pub addresses: Vec<Vec<u8>>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn output_owner_parser(

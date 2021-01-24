@@ -4,11 +4,22 @@ use std::error::Error;
 use rust_base58::ToBase58;
 use tracing::{instrument, trace};
 
-use crate::avm::parser::transferable_input_parser::transferable_input_parser;
-use crate::avm::parser::transferable_output_parser::transferable_output_parser;
-use crate::avm::parser::{BaseTx, Context};
+use crate::avm::parser::transferable_input_parser::{transferable_input_parser, TransferableInput};
+use crate::avm::parser::transferable_output_parser::{transferable_output_parser, TransferableOutput};
+use crate::avm::parser::Context;
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_u32};
+
+/// https://docs.avax.network/build/references/avm-transaction-serialization#what-base-tx-contains
+#[derive(Serialize, Deserialize, Debug)]
+pub struct BaseTx {
+    pub type_id: i32,
+    pub network_id: u32,
+    pub blockchain_id: String,
+    pub transferable_outputs: Vec<TransferableOutput>,
+    pub transferable_inputs: Vec<TransferableInput>,
+    pub memo: Vec<u8>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn base_tx_parser(_raw_msg: &[u8], _context: &mut Context) -> Result<BaseTx, Box<dyn Error>> {

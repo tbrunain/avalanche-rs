@@ -4,8 +4,15 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, Credential};
+use crate::avm::parser::Context;
 use crate::utils::conversion::pop_i32;
+
+/// https://docs.avax.network/build/references/avm-transaction-serialization#credentials
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Credential {
+    pub type_id: i32,
+    pub signatures: Vec<Vec<u8>>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn credential_parser<'a>(

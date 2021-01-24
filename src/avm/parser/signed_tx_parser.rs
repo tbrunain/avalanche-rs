@@ -3,15 +3,29 @@ use tracing::{instrument, trace};
 use std::borrow::Borrow;
 use std::error::Error;
 
-use crate::avm::parser::base_tx_parser::base_tx_parser;
-use crate::avm::parser::create_asset_tx_parser::create_asset_tx_parser;
-use crate::avm::parser::credential_parser::credential_parser;
-use crate::avm::parser::export_tx_parser::export_tx_parser;
-use crate::avm::parser::import_tx_parser::import_tx_parser;
-use crate::avm::parser::operation_tx_parser::operation_tx_parser;
-use crate::avm::parser::{Context, SignedTx};
+use crate::avm::parser::base_tx_parser::{base_tx_parser, BaseTx};
+use crate::avm::parser::create_asset_tx_parser::{create_asset_tx_parser, CreateAssetTx};
+use crate::avm::parser::credential_parser::{credential_parser, Credential};
+use crate::avm::parser::export_tx_parser::{export_tx_parser, ExportTx};
+use crate::avm::parser::import_tx_parser::{import_tx_parser, ImportTx};
+use crate::avm::parser::operation_tx_parser::{operation_tx_parser, OperationTx};
+use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_i16, pop_i32, pop_u32};
 use crate::utils::misc::generate_id;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SignedTx {
+    pub codec_id: i16,
+    pub unsigned_tx_offset: usize,
+    pub type_id: i32,
+    pub tx_id: String,
+    pub base_tx: Option<BaseTx>,
+    pub create_asset_tx: Option<CreateAssetTx>,
+    pub operation_tx: Option<OperationTx>,
+    pub import_tx: Option<ImportTx>,
+    pub export_tx: Option<ExportTx>,
+    pub credentials: Vec<Credential>,
+}
 
 /// Will parse a Vector of bytes (u8) and return a `SignedTx`
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]

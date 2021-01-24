@@ -5,8 +5,19 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, Output};
+use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_i32, pop_i64, pop_u32};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Output {
+    pub type_id: i32,
+    pub amount: Option<i64>,
+    pub group_id: Option<i32>,
+    pub payload: Option<Vec<u8>>,
+    pub locktime: i64,
+    pub threshold: i32,
+    pub addresses: Vec<Vec<u8>>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn output_parser(_raw_msg: &[u8], _context: &mut Context) -> Result<Output, Box<dyn Error>> {

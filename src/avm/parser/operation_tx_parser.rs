@@ -3,10 +3,16 @@ use tracing::{instrument, trace};
 use std::borrow::Borrow;
 use std::error::Error;
 
-use crate::avm::parser::base_tx_parser::base_tx_parser;
-use crate::avm::parser::transfer_op_parser::transfer_op_parser;
-use crate::avm::parser::{Context, OperationTx};
+use crate::avm::parser::base_tx_parser::{base_tx_parser, BaseTx};
+use crate::avm::parser::transfer_op_parser::{transfer_op_parser, TransferableOperation};
+use crate::avm::parser::Context;
 use crate::utils::conversion::pop_u32;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct OperationTx {
+    pub base_tx: BaseTx,
+    pub transferable_ops: Vec<TransferableOperation>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn operation_tx_parser(

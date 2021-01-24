@@ -3,10 +3,19 @@ use tracing::{instrument, trace};
 use std::borrow::Borrow;
 use std::error::Error;
 
-use crate::avm::parser::base_tx_parser::base_tx_parser;
-use crate::avm::parser::initial_state_parser::initial_state_parser;
-use crate::avm::parser::{Context, CreateAssetTx};
+use crate::avm::parser::base_tx_parser::{base_tx_parser, BaseTx};
+use crate::avm::parser::initial_state_parser::{initial_state_parser, InitialState};
+use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_u16, pop_u32, pop_u8};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CreateAssetTx {
+    pub base_tx: BaseTx,
+    pub name: String,
+    pub symbol: String,
+    pub denomination: i16,
+    pub initial_states: Vec<InitialState>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn create_asset_tx_parser(

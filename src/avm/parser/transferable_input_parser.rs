@@ -5,10 +5,18 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::input_parser::input_parser;
-use crate::avm::parser::{Context, TransferableInput};
+use crate::avm::parser::input_parser::{input_parser, SECP256KTransferInput};
+use crate::avm::parser::Context;
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_i32;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TransferableInput {
+    pub tx_id: String,
+    pub utxo_index: i32,
+    pub asset_id: String,
+    pub input: SECP256KTransferInput,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn transferable_input_parser<'a>(

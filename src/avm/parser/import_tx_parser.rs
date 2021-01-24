@@ -4,11 +4,18 @@ use tracing::{instrument, trace};
 use std::borrow::Borrow;
 use std::error::Error;
 
-use crate::avm::parser::base_tx_parser::base_tx_parser;
-use crate::avm::parser::transferable_input_parser::transferable_input_parser;
-use crate::avm::parser::{Context, ImportTx};
+use crate::avm::parser::base_tx_parser::{base_tx_parser, BaseTx};
+use crate::avm::parser::transferable_input_parser::{transferable_input_parser, TransferableInput};
+use crate::avm::parser::Context;
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_u32;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ImportTx {
+    pub base_tx: BaseTx,
+    pub source_chain: String,
+    pub transferable_inputs: Vec<TransferableInput>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn import_tx_parser(

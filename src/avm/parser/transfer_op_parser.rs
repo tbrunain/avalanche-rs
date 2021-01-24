@@ -5,15 +5,52 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::output_owner_parser::output_owner_parser;
-use crate::avm::parser::output_parser::{
-    secp256k1_mint_output_parser, secp256k1_transfer_output_parser,
-};
-use crate::avm::parser::{
-    Context, NFTMintOp, NFTTransferOp, SECP256K1MintOp, TransferableOperation, UtxoIds,
-};
+use crate::avm::parser::output_owner_parser::{output_owner_parser, OutputOwner};
+use crate::avm::parser::output_parser::{secp256k1_mint_output_parser, secp256k1_transfer_output_parser, Output};
+use crate::avm::parser::Context;
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_u32};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TransferableOperation {
+    pub asset_id: String,
+    pub utxo_ids: Vec<UtxoIds>,
+    pub secp256k1_mint_op: Option<SECP256K1MintOp>,
+    pub nft_mint_op: Option<NFTMintOp>,
+    pub nft_transfer_op: Option<NFTTransferOp>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SECP256K1MintOp {
+    pub type_id: i32,
+    pub address_indices: Vec<i32>,
+    pub secp256k1_mint_output: Output,
+    pub secp256k1_transfer_output: Output,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct NFTMintOp {
+    pub type_id: i32,
+    pub address_indices: Vec<u32>,
+    pub group_id: i32,
+    pub payload: Vec<u8>,
+    pub outputs: Vec<OutputOwner>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct NFTTransferOp {
+    pub type_id: i32,
+    pub address_indices: Vec<u32>,
+    pub group_id: i32,
+    pub payload: Vec<u8>,
+    pub output_owner: OutputOwner,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct UtxoIds {
+    pub tx_id: String,
+    pub utxo_index: i32,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn transfer_op_parser(

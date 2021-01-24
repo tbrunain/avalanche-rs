@@ -4,9 +4,15 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::output_parser::output_parser;
-use crate::avm::parser::{Context, InitialState};
+use crate::avm::parser::output_parser::{output_parser, Output};
+use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_i32, pop_u32};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct InitialState {
+    pub fx_id: i32,
+    pub outputs: Vec<Output>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn initial_state_parser(

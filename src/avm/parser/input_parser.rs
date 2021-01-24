@@ -4,8 +4,15 @@ use std::borrow::Borrow;
 
 use std::error::Error;
 
-use crate::avm::parser::{Context, SECP256KTransferInput};
+use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_i32, pop_i64};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SECP256KTransferInput {
+    pub type_id: i32,
+    pub amount: i64,
+    pub address_indices: Vec<i32>,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
 pub fn input_parser<'a>(

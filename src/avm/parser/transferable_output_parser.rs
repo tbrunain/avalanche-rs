@@ -3,9 +3,15 @@ use tracing::{instrument, trace};
 
 use std::error::Error;
 
-use crate::avm::parser::output_parser::output_parser;
-use crate::avm::parser::{Context, TransferableOutput};
+use crate::avm::parser::output_parser::{output_parser, Output};
+use crate::avm::parser::Context;
 use crate::utils::cb58::encode;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TransferableOutput {
+    pub asset_id: String,
+    pub output: Output,
+}
 
 #[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
 pub fn transferable_output_parser<'a>(
