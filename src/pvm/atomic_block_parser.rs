@@ -36,7 +36,7 @@ pub fn atomic_block_parser(
     let tx_type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
     trace!("Tx typeId : {:?}", tx_type_id);
 
-    let mut transaction = None;
+    let transaction;
 
     // Here to get the correct Tx ID we need to perform a small manipulation onto the _raw_msg .
     // In short in the bytes we get out of the socket , we have :

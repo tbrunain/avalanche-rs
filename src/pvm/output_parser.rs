@@ -171,7 +171,7 @@ pub fn stackeable_lockout_parser(
     trace!("Type Id : {:?}", type_id);
     *_context.offset += 4;
 
-    let mut output = None;
+    let output;
 
     match type_id {
         7 => output = Some(secp256k1_transfer_output_parser(_raw_msg, _context)?),
