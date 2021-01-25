@@ -107,6 +107,92 @@ mod tests {
     }
 
     #[test]
+    fn decode_abort_block_01() {
+        let mut raw_bytes: Vec<u8> = Vec::from([0, 0, 0, 0, 0, 1, 128, 191, 235, 71, 118, 237, 54, 75, 114, 28, 67, 164, 13, 192, 223, 102, 42, 30, 82, 24, 129, 224, 124, 80, 33, 151, 115, 179, 126, 254, 93, 134, 0, 0, 0, 0, 0, 2, 237, 249]);
+        let block = block_parser(
+            &mut raw_bytes,
+            &mut Context {
+                tx_id: "a_tx",
+                uuid: Default::default(),
+                offset: &mut 0,
+                parsing_started: SystemTime::now(),
+            },
+        )
+        .unwrap();
+        assert_eq!(block.codec_id, 0, "Checking if tx_id is correctly set");
+        assert_eq!(block.type_id, 1, "Checking if tx_id is correctly set");
+        assert_eq!(
+            block.block_data.type_id, 1,
+            "Checking if tx_id is correctly set"
+        );
+        assert_eq!(
+            block.block_data.credentials.len(),
+            0,
+            "Checking if tx_id is correctly set"
+        );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().type_id, 1,
+        //     "Checking if tx_id is correctly set"
+        // );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().signatures.len(), 1,
+        //     "Checking if tx_id is correctly set"
+        // );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().signatures.get(0).unwrap(), &Vec::<u8>::from([
+        //         186, 174, 141, 174, 79, 193, 55, 231, 65, 189, 14, 118, 165, 15, 219, 111, 177,
+        //         164, 213, 157, 180, 45, 141, 77, 231, 13, 119, 153, 37, 87, 89, 151, 81, 179, 207,
+        //         221, 87, 79, 91, 86, 182, 242, 163, 233, 154, 169, 112, 178, 233, 127, 194, 188,
+        //         189, 41, 99, 125, 12, 60, 135, 61, 19, 97, 184, 105, 0
+        //     ]),
+        //     "Checking if tx_id is correctly set"
+        // );
+    }
+
+    #[test]
+    fn decode_commit_block_01() {
+        let mut raw_bytes: Vec<u8> = Vec::from([0, 0, 0, 0, 0, 2, 214, 142, 91, 15, 220, 78, 129, 95, 27, 67, 22, 113, 29, 10, 218, 112, 124, 35, 152, 149, 112, 134, 127, 85, 118, 132, 189, 204, 25, 190, 252, 71, 0, 0, 0, 0, 0, 3, 44, 172]);
+        let block = block_parser(
+            &mut raw_bytes,
+            &mut Context {
+                tx_id: "a_tx",
+                uuid: Default::default(),
+                offset: &mut 0,
+                parsing_started: SystemTime::now(),
+            },
+        )
+        .unwrap();
+        assert_eq!(block.codec_id, 0, "Checking if tx_id is correctly set");
+        assert_eq!(block.type_id, 2, "Checking if tx_id is correctly set");
+        assert_eq!(
+            block.block_data.type_id, 2,
+            "Checking if tx_id is correctly set"
+        );
+        assert_eq!(
+            block.block_data.credentials.len(),
+            0,
+            "Checking if tx_id is correctly set"
+        );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().type_id, 1,
+        //     "Checking if tx_id is correctly set"
+        // );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().signatures.len(), 1,
+        //     "Checking if tx_id is correctly set"
+        // );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().signatures.get(0).unwrap(), &Vec::<u8>::from([
+        //         186, 174, 141, 174, 79, 193, 55, 231, 65, 189, 14, 118, 165, 15, 219, 111, 177,
+        //         164, 213, 157, 180, 45, 141, 77, 231, 13, 119, 153, 37, 87, 89, 151, 81, 179, 207,
+        //         221, 87, 79, 91, 86, 182, 242, 163, 233, 154, 169, 112, 178, 233, 127, 194, 188,
+        //         189, 41, 99, 125, 12, 60, 135, 61, 19, 97, 184, 105, 0
+        //     ]),
+        //     "Checking if tx_id is correctly set"
+        // );
+    }
+
+    #[test]
     fn decode_atomic_bloc_advance_time_tx_01() {
         let mut raw_bytes: Vec<u8> = Vec::from([
             0, 0, 0, 0, 0, 4, 95, 25, 225, 140, 228, 119, 117, 80, 59, 43, 159, 40, 8, 92, 69, 157,
@@ -2320,7 +2406,7 @@ mod tests {
         assert_eq!(
             block.block_data.transactions.len(),
             1,
-            "Checking if block.block_data tansactions number is correctly set"
+            "Checking if block.block_data transactions number is correctly set"
         );
 
         let tx = block
@@ -2332,7 +2418,7 @@ mod tests {
             .unwrap();
 
         assert_eq!(
-            tx.tx_id, "",
+            tx.tx_id, "QTziaZYNnBUetsdWL5KbnWg9tzHTwWeRfW5cf9LA7HvZTJbDN",
             "Checking if block.block_data transaction 0 tx_id is correctly set"
         );
     }
