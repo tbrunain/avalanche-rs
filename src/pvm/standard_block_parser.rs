@@ -50,7 +50,7 @@ pub fn standard_block_parser(
 
         // *_context.offset += 4;
 
-        let mut transaction = None;
+        let transaction;
 
         // Here to get the correct Tx ID we need to perform a small manipulation onto the _raw_msg .
         // In short in the bytes we get out of the socket , we have :

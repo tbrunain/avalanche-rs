@@ -26,7 +26,7 @@ pub fn block_parser(
 
     // Now depending on the type of the block we might need to parse it differently .
 
-    let mut block_data = None;
+    let block_data;
 
     match type_id {
         0 => block_data = Some(proposal_block_parser(_raw_msg, _context)?),
