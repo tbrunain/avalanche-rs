@@ -16,7 +16,7 @@ use crate::utils::misc::generate_id;
 use rust_base58::ToBase58;
 use std::borrow::Borrow;
 use std::error::Error;
-use tracing::{error, instrument, trace};
+use tracing::{instrument, trace};
 
 #[instrument(fields(block_id = % _context.tx_id, block_type = "proposal"))]
 pub fn proposal_block_parser(
@@ -47,8 +47,8 @@ pub fn proposal_block_parser(
     // - 4B TYPE OF TX
     // - XB THE TX DATA
     // BUT we need to have the codec version added in between HEIGHT anf TYPE OF TX .
-    _raw_msg.insert((*_context.offset), 0);
-    _raw_msg.insert((*_context.offset), 0);
+    _raw_msg.insert(*_context.offset, 0);
+    _raw_msg.insert(*_context.offset, 0);
     let tx_id = generate_id(&_raw_msg[*_context.offset..=(_raw_msg.len() - 1)]);
 
     trace!("tx_id : {:?}", tx_id);

@@ -3,7 +3,7 @@ use crate::pvm::base_tx_parser::BaseTx;
 use crate::pvm::Transaction;
 use crate::utils::cb58::encode;
 use rust_base58::ToBase58;
-use std::borrow::Borrow;
+
 use std::error::Error;
 use tracing::{instrument, trace};
 

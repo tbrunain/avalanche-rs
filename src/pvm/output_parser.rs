@@ -1,4 +1,4 @@
-use rust_base58::ToBase58;
+
 use tracing::{error, instrument, trace};
 
 use std::borrow::Borrow;

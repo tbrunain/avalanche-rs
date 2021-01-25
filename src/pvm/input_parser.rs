@@ -1,4 +1,4 @@
-use tracing::{error, instrument, trace};
+use tracing::{instrument, trace};
 
 use std::borrow::Borrow;
 
