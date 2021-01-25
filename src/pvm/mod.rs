@@ -19,8 +19,6 @@ pub mod standard_block_parser;
 pub mod transferable_input_parser;
 pub mod transferable_output_parser;
 
-
-
 use crate::avm::parser::credential_parser::Credential;
 use crate::pvm::add_delegator_tx::AddDelegatorTx;
 use crate::pvm::add_subnet_validator_tx::AddSubnetValidatorTx;
@@ -32,7 +30,6 @@ use crate::pvm::create_subnet_tx::CreateSubnetTx;
 use crate::pvm::export_tx_parser::ExportTx;
 use crate::pvm::import_tx::ImportTx;
 use crate::pvm::reward_validator_tx_parser::RewardValidatorTx;
-
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Block {
