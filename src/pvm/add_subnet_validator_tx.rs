@@ -76,7 +76,7 @@ pub fn add_subnet_validator_tx_parser(
         index += 1;
     }
 
-    let mut add_subnet_validator = AddSubnetValidatorTx {
+    let add_subnet_validator = AddSubnetValidatorTx {
         node_id,
         start_time,
         end_time,

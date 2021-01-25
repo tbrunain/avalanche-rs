@@ -3,7 +3,7 @@ use crate::pvm::base_tx_parser::base_tx_parser;
 use crate::pvm::output_parser::{secp256k1_output_owner_output_parser, SECP256KTransferOutput};
 use crate::pvm::Transaction;
 use crate::utils::conversion::pop_i32;
-use rust_base58::ToBase58;
+
 use std::borrow::Borrow;
 use std::error::Error;
 use tracing::{instrument, trace};
@@ -28,7 +28,7 @@ pub fn create_subnet_tx_parser(
 
     let rewards_owner = secp256k1_output_owner_output_parser(_raw_msg, _context)?;
 
-    let mut create_subnet = CreateSubnetTx {
+    let create_subnet = CreateSubnetTx {
         reward_owner: rewards_owner,
     };
 

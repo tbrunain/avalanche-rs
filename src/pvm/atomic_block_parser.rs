@@ -47,8 +47,8 @@ pub fn atomic_block_parser(
     // - 4B TYPE OF TX
     // - XB THE TX DATA
     // BUT we need to have the codec version added in between HEIGHT anf TYPE OF TX .
-    _raw_msg.insert((*_context.offset), 0);
-    _raw_msg.insert((*_context.offset), 0);
+    _raw_msg.insert(*_context.offset, 0);
+    _raw_msg.insert(*_context.offset, 0);
     let tx_id = generate_id(&_raw_msg[*_context.offset..=(_raw_msg.len() - 1)].to_vec());
 
     trace!("tx_id : {:?}", tx_id);

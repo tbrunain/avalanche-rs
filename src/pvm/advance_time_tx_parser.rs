@@ -2,7 +2,7 @@ use crate::avm::parser::Context;
 use crate::pvm::base_tx_parser::BaseTx;
 use crate::pvm::Transaction;
 use crate::utils::conversion::{pop_i16, pop_i64};
-use rust_base58::ToBase58;
+
 use std::borrow::Borrow;
 use std::error::Error;
 use tracing::{instrument, trace};
@@ -30,7 +30,7 @@ pub fn advance_time_tx_parser(
 
     *_context.offset += 8;
 
-    let mut advance_time = AdvanceTimeTx {
+    let advance_time = AdvanceTimeTx {
         time_proposal: time,
     };
 

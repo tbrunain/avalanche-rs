@@ -41,7 +41,7 @@ pub fn import_tx_parser(
         index += 1;
     }
 
-    let mut import_tx = ImportTx {
+    let import_tx = ImportTx {
         source_chain_id,
         transferable_inputs: inputs,
     };

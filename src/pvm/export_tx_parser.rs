@@ -43,7 +43,7 @@ pub fn export_tx_parser(
         index += 1;
     }
 
-    let mut export_tx = ExportTx {
+    let export_tx = ExportTx {
         destination_chain,
         transferable_outputs: outputs,
     };
