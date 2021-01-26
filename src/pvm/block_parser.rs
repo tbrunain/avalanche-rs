@@ -397,6 +397,49 @@ mod tests {
         //     "Checking if tx_id is correctly set"
         // );
     }
+
+    #[test]
+    fn decode_standard_block_create_subnet_tx_01() {
+        let mut raw_bytes: Vec<u8> = Vec::from([0, 0, 0, 0, 0, 3, 135, 136, 121, 63, 185, 169, 36, 253, 59, 122, 131, 56, 255, 62, 143, 109, 140, 186, 162, 180, 54, 245, 14, 113, 169, 77, 209, 16, 136, 240, 115, 208, 0, 0, 0, 0, 0, 0, 23, 94, 0, 0, 0, 1, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 33, 230, 115, 23, 203, 196, 190, 42, 235, 0, 103, 122, 214, 70, 39, 120, 168, 245, 34, 116, 185, 214, 5, 223, 37, 145, 178, 48, 39, 168, 125, 255, 0, 0, 0, 7, 0, 0, 0, 0, 0, 15, 222, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 138, 19, 176, 23, 28, 117, 3, 117, 99, 58, 242, 121, 4, 183, 72, 88, 95, 215, 126, 126, 0, 0, 0, 2, 28, 243, 243, 194, 77, 23, 95, 92, 212, 227, 148, 200, 117, 101, 1, 13, 41, 195, 54, 55, 115, 64, 227, 253, 23, 145, 246, 71, 36, 196, 24, 207, 0, 0, 0, 0, 33, 230, 115, 23, 203, 196, 190, 42, 235, 0, 103, 122, 214, 70, 39, 120, 168, 245, 34, 116, 185, 214, 5, 223, 37, 145, 178, 48, 39, 168, 125, 255, 0, 0, 0, 5, 0, 0, 0, 0, 0, 137, 240, 128, 0, 0, 0, 1, 0, 0, 0, 0, 80, 4, 198, 252, 185, 71, 102, 147, 234, 153, 21, 35, 102, 130, 43, 103, 117, 56, 105, 140, 45, 74, 75, 6, 41, 223, 226, 193, 243, 127, 67, 71, 0, 0, 0, 0, 33, 230, 115, 23, 203, 196, 190, 42, 235, 0, 103, 122, 214, 70, 39, 120, 168, 245, 34, 116, 185, 214, 5, 223, 37, 145, 178, 48, 39, 168, 125, 255, 0, 0, 0, 5, 0, 0, 0, 0, 0, 30, 132, 128, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 79, 56, 181, 252, 149, 85, 157, 235, 182, 127, 118, 41, 1, 171, 96, 207, 100, 204, 39, 217, 138, 19, 176, 23, 28, 117, 3, 117, 99, 58, 242, 121, 4, 183, 72, 88, 95, 215, 126, 126, 0, 0, 0, 2, 0, 0, 0, 9, 0, 0, 0, 1, 133, 188, 205, 47, 36, 150, 109, 85, 40, 53, 184, 103, 207, 214, 19, 42, 64, 90, 245, 42, 42, 62, 15, 214, 81, 12, 76, 24, 127, 93, 232, 185, 98, 178, 14, 192, 75, 213, 188, 14, 171, 255, 135, 86, 83, 213, 215, 2, 157, 208, 32, 178, 100, 35, 99, 180, 193, 64, 1, 187, 160, 97, 85, 224, 1, 0, 0, 0, 9, 0, 0, 0, 1, 231, 140, 52, 143, 43, 177, 9, 139, 82, 198, 100, 161, 242, 194, 88, 49, 229, 141, 15, 158, 64, 187, 247, 49, 92, 147, 239, 68, 253, 123, 8, 51, 37, 214, 56, 223, 216, 120, 216, 53, 167, 207, 32, 133, 5, 15, 108, 90, 183, 103, 192, 69, 185, 255, 215, 142, 64, 235, 79, 5, 246, 219, 71, 122, 0]);
+        let block = block_parser(
+            &mut raw_bytes,
+            &mut Context {
+                tx_id: "a_tx",
+                uuid: Default::default(),
+                offset: &mut 0,
+                parsing_started: SystemTime::now(),
+            },
+        )
+        .unwrap();
+        assert_eq!(block.codec_id, 0, "Checking if tx_id is correctly set");
+        assert_eq!(block.type_id, 3, "Checking if tx_id is correctly set");
+        assert_eq!(
+            block.block_data.type_id, 3,
+            "Checking if tx_id is correctly set"
+        );
+        assert_eq!(
+            block.block_data.credentials.len(),
+            2,
+            "Checking if tx_id is correctly set"
+        );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().type_id, 1,
+        //     "Checking if tx_id is correctly set"
+        // );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().signatures.len(), 1,
+        //     "Checking if tx_id is correctly set"
+        // );
+        // assert_eq!(
+        //     block.block_data.credentials.get(0).unwrap().signatures.get(0).unwrap(), &Vec::<u8>::from([
+        //         186, 174, 141, 174, 79, 193, 55, 231, 65, 189, 14, 118, 165, 15, 219, 111, 177,
+        //         164, 213, 157, 180, 45, 141, 77, 231, 13, 119, 153, 37, 87, 89, 151, 81, 179, 207,
+        //         221, 87, 79, 91, 86, 182, 242, 163, 233, 154, 169, 112, 178, 233, 127, 194, 188,
+        //         189, 41, 99, 125, 12, 60, 135, 61, 19, 97, 184, 105, 0
+        //     ]),
+        //     "Checking if tx_id is correctly set"
+        // );
+    }
     #[test]
     fn decode_standard_block_01() {
         let mut raw_bytes: Vec<u8> = Vec::from([
@@ -2709,6 +2752,83 @@ mod tests {
 
         assert_eq!(
             tx.tx_id, "QTziaZYNnBUetsdWL5KbnWg9tzHTwWeRfW5cf9LA7HvZTJbDN",
+            "Checking if block.block_data transaction 0 tx_id is correctly set"
+        );
+    }
+    #[test]
+    fn decode_atomic_bloc_export_tx_01() {
+        let mut raw_bytes: Vec<u8> = Vec::from([0, 0, 0, 0, 0, 4, 67, 50, 203, 38, 242, 197, 67, 249, 121, 240, 126, 106, 39, 167, 106, 87, 234, 156, 121, 217, 182, 159, 180, 50, 26, 128, 216, 66, 160, 48, 20, 222, 0, 0, 0, 0, 0, 0, 3, 144, 0, 0, 0, 18, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 99, 203, 226, 231, 51, 138, 31, 57, 75, 227, 146, 68, 42, 174, 18, 159, 68, 143, 194, 158, 250, 93, 146, 234, 39, 100, 95, 234, 92, 78, 231, 58, 0, 0, 0, 0, 33, 230, 115, 23, 203, 196, 190, 42, 235, 0, 103, 122, 214, 70, 39, 120, 168, 245, 34, 116, 185, 214, 5, 223, 37, 145, 178, 48, 39, 168, 125, 255, 0, 0, 0, 5, 0, 0, 0, 0, 178, 177, 217, 128, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 237, 95, 56, 52, 30, 67, 110, 93, 70, 226, 187, 0, 180, 93, 98, 174, 151, 209, 176, 80, 198, 75, 198, 52, 174, 16, 98, 103, 57, 227, 92, 75, 0, 0, 0, 1, 33, 230, 115, 23, 203, 196, 190, 42, 235, 0, 103, 122, 214, 70, 39, 120, 168, 245, 34, 116, 185, 214, 5, 223, 37, 145, 178, 48, 39, 168, 125, 255, 0, 0, 0, 7, 0, 0, 0, 0, 178, 162, 151, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 111, 78, 0, 244, 151, 20, 46, 63, 71, 233, 45, 71, 35, 79, 9, 171, 51, 233, 206, 180, 0, 0, 0, 1, 0, 0, 0, 9, 0, 0, 0, 1, 152, 52, 192, 175, 13, 217, 44, 10, 162, 254, 189, 199, 231, 177, 71, 215, 180, 188, 70, 130, 92, 248, 189, 26, 109, 243, 6, 188, 126, 121, 95, 37, 10, 5, 85, 90, 14, 119, 118, 55, 50, 89, 252, 34, 236, 63, 81, 78, 44, 238, 213, 10, 142, 182, 164, 40, 176, 178, 132, 182, 2, 252, 3, 3, 1]);
+        let block = block_parser(
+            &mut raw_bytes,
+            &mut Context {
+                tx_id: "a_tx",
+                uuid: Default::default(),
+                offset: &mut 0,
+                parsing_started: SystemTime::now(),
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            block.codec_id, 0,
+            "Checking if block codec id is correctly set"
+        );
+        assert_eq!(
+            block.type_id, 4,
+            "Checking if block type id is correctly set"
+        );
+        assert_eq!(
+            block.block_data.type_id, 0,
+            "Checking if block.block_data type id is correctly set"
+        );
+        assert_eq!(
+            block.block_data.credentials.len(),
+            1,
+            "Checking if block.block_data credentials size is correctly set"
+        );
+        assert_eq!(
+            block.block_data.credentials.get(0).unwrap().type_id,
+            9,
+            "Checking if block.block_data credential 0 type id is correctly set"
+        );
+        assert_eq!(
+            block
+                .block_data
+                .credentials
+                .get(0)
+                .unwrap()
+                .signatures
+                .len(),
+            1,
+            "Checking if  block.block_data credential 0 bytes are correctly set"
+        );
+        assert_eq!(
+            block
+                .block_data
+                .credentials
+                .get(0)
+                .unwrap()
+                .signatures
+                .get(0)
+                .unwrap(),
+            &Vec::<u8>::from([152, 52, 192, 175, 13, 217, 44, 10, 162, 254, 189, 199, 231, 177, 71, 215, 180, 188, 70, 130, 92, 248, 189, 26, 109, 243, 6, 188, 126, 121, 95, 37, 10, 5, 85, 90, 14, 119, 118, 55, 50, 89, 252, 34, 236, 63, 81, 78, 44, 238, 213, 10, 142, 182, 164, 40, 176, 178, 132, 182, 2, 252, 3, 3, 1]),
+            "Checking if tx_id is correctly set"
+        );
+        assert_eq!(
+            block.block_data.transactions.len(),
+            1,
+            "Checking if block.block_data transactions number is correctly set"
+        );
+
+        let tx = block
+            .block_data
+            .transactions
+            .get(0)
+            .unwrap()
+            .as_ref()
+            .unwrap();
+
+        assert_eq!(
+            tx.tx_id, "ePJ2GEN3gBUquRUhBkehfUS1cWBz1SZNKuYPjG5Ktpjfmpef",
             "Checking if block.block_data transaction 0 tx_id is correctly set"
         );
     }
