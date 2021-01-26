@@ -4,7 +4,7 @@ use tracing::{instrument, trace};
 use std::borrow::Borrow;
 
 use crate::avm::parser::Context;
-use crate::pvm::input_parser::{input_parser, Input};
+use crate::pvm::parser::input_parser::{input_parser, Input};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_i32;
 use std::error::Error;

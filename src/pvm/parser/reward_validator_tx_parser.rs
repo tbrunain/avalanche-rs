@@ -1,6 +1,6 @@
 use crate::avm::parser::Context;
-use crate::pvm::atomic_block_parser::Transaction;
-use crate::pvm::base_tx_parser::BaseTx;
+use crate::pvm::parser::atomic_block_parser::Transaction;
+use crate::pvm::parser::base_tx_parser::BaseTx;
 use crate::utils::cb58::encode;
 use rust_base58::ToBase58;
 

@@ -1,10 +1,10 @@
 use crate::avm::parser::credential_parser::Credential;
 use crate::avm::parser::Context;
-use crate::pvm::abort_block_parser::abort_block_parser;
-use crate::pvm::atomic_block_parser::{atomic_block_parser, Transaction};
-use crate::pvm::commit_block_parser::commit_block_parser;
-use crate::pvm::proposal_block_parser::proposal_block_parser;
-use crate::pvm::standard_block_parser::standard_block_parser;
+use crate::pvm::parser::abort_block_parser::abort_block_parser;
+use crate::pvm::parser::atomic_block_parser::{atomic_block_parser, Transaction};
+use crate::pvm::parser::commit_block_parser::commit_block_parser;
+use crate::pvm::parser::proposal_block_parser::proposal_block_parser;
+use crate::pvm::parser::standard_block_parser::standard_block_parser;
 use crate::utils::conversion::{pop_i16, pop_i32};
 use std::borrow::Borrow;
 use std::error::Error;

@@ -5,7 +5,7 @@ use std::borrow::Borrow;
 use std::error::Error;
 
 use crate::avm::parser::Context;
-use crate::pvm::output_parser::StakeableLockedInput;
+use crate::pvm::parser::output_parser::StakeableLockedInput;
 use crate::utils::conversion::{pop_i32, pop_i64};
 
 #[derive(Serialize, Deserialize, Debug)]

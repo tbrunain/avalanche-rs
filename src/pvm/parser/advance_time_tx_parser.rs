@@ -1,6 +1,6 @@
 use crate::avm::parser::Context;
-use crate::pvm::atomic_block_parser::Transaction;
-use crate::pvm::base_tx_parser::BaseTx;
+use crate::pvm::parser::atomic_block_parser::Transaction;
+use crate::pvm::parser::base_tx_parser::BaseTx;
 use crate::utils::conversion::{pop_i16, pop_i64};
 
 use std::borrow::Borrow;

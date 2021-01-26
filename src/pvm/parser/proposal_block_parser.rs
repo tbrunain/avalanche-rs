@@ -1,16 +1,15 @@
-use crate::avm::parser::credential_parser::{credential_parser, Credential};
+use crate::avm::parser::credential_parser::credential_parser;
 use crate::avm::parser::Context;
-use crate::pvm::add_delegator_tx::{add_delegator_tx_parser, AddDelegatorTx};
-use crate::pvm::add_subnet_validator_tx::{add_subnet_validator_tx_parser, AddSubnetValidatorTx};
-use crate::pvm::add_validator_tx::{add_validator_tx_parser, AddValidatorTx};
-use crate::pvm::advance_time_tx_parser::{advance_time_tx_parser, AdvanceTimeTx};
-use crate::pvm::base_tx_parser::BaseTx;
-use crate::pvm::block_parser::BlockData;
-use crate::pvm::create_blockchain_tx::{create_blockchain_tx_parser, CreateBlockchainTx};
-use crate::pvm::create_subnet_tx::{create_subnet_tx_parser, CreateSubnetTx};
-use crate::pvm::export_tx_parser::{export_tx_parser, ExportTx};
-use crate::pvm::import_tx::{import_tx_parser, ImportTx};
-use crate::pvm::reward_validator_tx_parser::{reward_validator_parser, RewardValidatorTx};
+use crate::pvm::parser::add_delegator_tx::add_delegator_tx_parser;
+use crate::pvm::parser::add_subnet_validator_tx::add_subnet_validator_tx_parser;
+use crate::pvm::parser::add_validator_tx::add_validator_tx_parser;
+use crate::pvm::parser::advance_time_tx_parser::advance_time_tx_parser;
+use crate::pvm::parser::block_parser::BlockData;
+use crate::pvm::parser::create_blockchain_tx::create_blockchain_tx_parser;
+use crate::pvm::parser::create_subnet_tx::create_subnet_tx_parser;
+use crate::pvm::parser::export_tx_parser::export_tx_parser;
+use crate::pvm::parser::import_tx::import_tx_parser;
+use crate::pvm::parser::reward_validator_tx_parser::reward_validator_parser;
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_i64, pop_u32};
 use crate::utils::misc::generate_id;
@@ -19,24 +18,8 @@ use std::borrow::Borrow;
 use std::error::Error;
 use tracing::{instrument, trace};
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Transaction {
-    pub base_tx: BaseTx,
-    pub tx_id: String,
-    pub add_validator_tx: Option<AddValidatorTx>,
-    pub import_tx: Option<ImportTx>,
-    pub export_tx: Option<ExportTx>,
-    pub add_subnet_validator_tx: Option<AddSubnetValidatorTx>,
-    pub add_delegator_tx: Option<AddDelegatorTx>,
-    pub create_blockchain_tx: Option<CreateBlockchainTx>,
-    pub create_subnet_tx: Option<CreateSubnetTx>,
-    pub advance_time_tx: Option<AdvanceTimeTx>,
-    pub reward_validator_tx: Option<RewardValidatorTx>,
-    pub credentials: Vec<Credential>,
-}
-
-#[instrument(fields(block_id = % _context.tx_id, block_type = "atomic_block"))]
-pub fn atomic_block_parser(
+#[instrument(fields(block_id = % _context.tx_id, block_type = "proposal"))]
+pub fn proposal_block_parser(
     _raw_msg: &mut Vec<u8>,
     _context: &mut Context,
 ) -> Result<BlockData, Box<dyn Error>> {
@@ -46,12 +29,12 @@ pub fn atomic_block_parser(
     *_context.offset += 32;
 
     let height = pop_i64(_raw_msg[*_context.offset..=(*_context.offset + 7)].borrow());
-    trace!("Height : {:?}", height);
+    trace!("height : {:?}", height);
 
     *_context.offset += 8;
 
     let tx_type_id = pop_i32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
-    trace!("Tx typeId : {:?}", tx_type_id);
+    trace!("tx_type_id : {:?}", tx_type_id);
 
     let transaction;
 
@@ -66,7 +49,7 @@ pub fn atomic_block_parser(
     // BUT we need to have the codec version added in between HEIGHT anf TYPE OF TX .
     _raw_msg.insert(*_context.offset, 0);
     _raw_msg.insert(*_context.offset, 0);
-    let tx_id = generate_id(&_raw_msg[*_context.offset..=(_raw_msg.len() - 1)].to_vec());
+    let tx_id = generate_id(&_raw_msg[*_context.offset..=(_raw_msg.len() - 1)]);
 
     trace!("tx_id : {:?}", tx_id);
 
@@ -86,9 +69,6 @@ pub fn atomic_block_parser(
         ),
     }
 
-    let mut transactions = Vec::new();
-    transactions.push(transaction);
-
     // Number of credentials
     let number_of_credentials: u32 =
         pop_u32(_raw_msg[*_context.offset..=(*_context.offset + 3)].borrow());
@@ -105,10 +85,13 @@ pub fn atomic_block_parser(
         index += 1;
     }
 
+    let mut transactions = Vec::new();
+    transactions.push(transaction);
+
     Ok(BlockData {
         type_id: 0,
-        height,
         parent_block_id,
+        height,
         transactions,
         credentials,
     })

@@ -3,7 +3,7 @@ use tracing::{error, instrument, trace};
 use std::borrow::Borrow;
 
 use crate::avm::parser::Context;
-use crate::pvm::input_parser::SECP256KTransferInput;
+use crate::pvm::parser::input_parser::SECP256KTransferInput;
 use crate::utils::conversion::{pop_i32, pop_i64};
 use std::error::Error;
 

@@ -1,6 +1,8 @@
 use crate::avm::parser::Context;
-use crate::pvm::transferable_input_parser::{transferable_input_parser, TransferableInput};
-use crate::pvm::transferable_output_parser::{transferable_output_parser, TransferableOutput};
+use crate::pvm::parser::transferable_input_parser::{transferable_input_parser, TransferableInput};
+use crate::pvm::parser::transferable_output_parser::{
+    transferable_output_parser, TransferableOutput,
+};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i16, pop_i32, pop_u32};
 use rust_base58::ToBase58;

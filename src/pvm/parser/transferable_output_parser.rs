@@ -4,7 +4,7 @@ use tracing::{instrument, trace};
 use std::error::Error;
 
 use crate::avm::parser::Context;
-use crate::pvm::output_parser::{output_parser, Output};
+use crate::pvm::parser::output_parser::{output_parser, Output};
 use crate::utils::cb58::encode;
 
 #[derive(Serialize, Deserialize, Debug)]
