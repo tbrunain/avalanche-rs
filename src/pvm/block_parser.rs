@@ -1,14 +1,31 @@
+use crate::avm::parser::credential_parser::Credential;
 use crate::avm::parser::Context;
 use crate::pvm::abort_block_parser::abort_block_parser;
-use crate::pvm::atomic_block_parser::atomic_block_parser;
+use crate::pvm::atomic_block_parser::{atomic_block_parser, Transaction};
 use crate::pvm::commit_block_parser::commit_block_parser;
 use crate::pvm::proposal_block_parser::proposal_block_parser;
 use crate::pvm::standard_block_parser::standard_block_parser;
-use crate::pvm::Block;
 use crate::utils::conversion::{pop_i16, pop_i32};
 use std::borrow::Borrow;
 use std::error::Error;
 use tracing::{instrument, trace};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Block {
+    pub codec_id: i16,
+    pub unsigned_tx_offset: usize,
+    pub type_id: i32,
+    pub block_data: BlockData,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct BlockData {
+    pub type_id: i32,
+    pub height: i64,
+    pub parent_block_id: String,
+    pub transactions: Vec<Option<Transaction>>,
+    pub credentials: Vec<Credential>,
+}
 
 #[instrument(fields(block_id = % _context.tx_id))]
 pub fn block_parser(

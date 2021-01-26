@@ -1,5 +1,5 @@
 use crate::avm::parser::Context;
-use crate::pvm::BlockData;
+use crate::pvm::block_parser::BlockData;
 use crate::utils::cb58::encode;
 use crate::utils::conversion::pop_i64;
 use rust_base58::ToBase58;

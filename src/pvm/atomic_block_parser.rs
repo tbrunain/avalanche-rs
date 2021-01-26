@@ -1,15 +1,16 @@
-use crate::avm::parser::credential_parser::credential_parser;
+use crate::avm::parser::credential_parser::{credential_parser, Credential};
 use crate::avm::parser::Context;
-use crate::pvm::add_delegator_tx::add_delegator_tx_parser;
-use crate::pvm::add_subnet_validator_tx::add_subnet_validator_tx_parser;
-use crate::pvm::add_validator_tx::add_validator_tx_parser;
-use crate::pvm::advance_time_tx_parser::advance_time_tx_parser;
-use crate::pvm::create_blockchain_tx::create_blockchain_tx_parser;
-use crate::pvm::create_subnet_tx::create_subnet_tx_parser;
-use crate::pvm::export_tx_parser::export_tx_parser;
-use crate::pvm::import_tx::import_tx_parser;
-use crate::pvm::reward_validator_tx_parser::reward_validator_parser;
-use crate::pvm::BlockData;
+use crate::pvm::add_delegator_tx::{add_delegator_tx_parser, AddDelegatorTx};
+use crate::pvm::add_subnet_validator_tx::{add_subnet_validator_tx_parser, AddSubnetValidatorTx};
+use crate::pvm::add_validator_tx::{add_validator_tx_parser, AddValidatorTx};
+use crate::pvm::advance_time_tx_parser::{advance_time_tx_parser, AdvanceTimeTx};
+use crate::pvm::base_tx_parser::BaseTx;
+use crate::pvm::block_parser::BlockData;
+use crate::pvm::create_blockchain_tx::{create_blockchain_tx_parser, CreateBlockchainTx};
+use crate::pvm::create_subnet_tx::{create_subnet_tx_parser, CreateSubnetTx};
+use crate::pvm::export_tx_parser::{export_tx_parser, ExportTx};
+use crate::pvm::import_tx::{import_tx_parser, ImportTx};
+use crate::pvm::reward_validator_tx_parser::{reward_validator_parser, RewardValidatorTx};
 use crate::utils::cb58::encode;
 use crate::utils::conversion::{pop_i32, pop_i64, pop_u32};
 use crate::utils::misc::generate_id;
@@ -17,6 +18,22 @@ use rust_base58::ToBase58;
 use std::borrow::Borrow;
 use std::error::Error;
 use tracing::{instrument, trace};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Transaction {
+    pub base_tx: BaseTx,
+    pub tx_id: String,
+    pub add_validator_tx: Option<AddValidatorTx>,
+    pub import_tx: Option<ImportTx>,
+    pub export_tx: Option<ExportTx>,
+    pub add_subnet_validator_tx: Option<AddSubnetValidatorTx>,
+    pub add_delegator_tx: Option<AddDelegatorTx>,
+    pub create_blockchain_tx: Option<CreateBlockchainTx>,
+    pub create_subnet_tx: Option<CreateSubnetTx>,
+    pub advance_time_tx: Option<AdvanceTimeTx>,
+    pub reward_validator_tx: Option<RewardValidatorTx>,
+    pub credentials: Vec<Credential>,
+}
 
 #[instrument(fields(block_id = % _context.tx_id, block_type = "atomic_block"))]
 pub fn atomic_block_parser(
