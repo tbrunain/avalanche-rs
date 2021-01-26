@@ -3,5 +3,5 @@
 extern crate serde_derive;
 
 pub mod avm;
-mod pvm;
+pub mod pvm;
 pub mod utils;
