@@ -1,7 +1,7 @@
 use crate::avm::parser::Context;
+use crate::pvm::atomic_block_parser::Transaction;
 use crate::pvm::base_tx_parser::base_tx_parser;
 use crate::pvm::output_parser::{secp256k1_output_owner_output_parser, SECP256KTransferOutput};
-use crate::pvm::atomic_block_parser::Transaction;
 use crate::utils::conversion::pop_i32;
 
 use std::borrow::Borrow;
