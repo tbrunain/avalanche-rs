@@ -14,7 +14,7 @@ pub struct Output {
     pub type_id: i32,
     pub amount: Option<i64>,
     pub group_id: Option<i32>,
-    pub payload: Option<Vec<u8>>,
+    pub payload: Option<String>,
     pub locktime: i64,
     pub threshold: i32,
     pub addresses: Vec<String>,
@@ -295,7 +295,7 @@ pub fn nft_transfer_output_parser(
     *_context.offset += 4;
 
     // Payload
-    let mut payload = Vec::new();
+    let mut payload = String::new();
     if payload_size == 0 {
         trace!(
             "{} \n Output -- NftTransferOutput Parser -- payload_size is empty ",
@@ -307,7 +307,7 @@ pub fn nft_transfer_output_parser(
             _context.tx_id,
             &_raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_base58()
         );
-        payload = _raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_vec();
+        payload = (_raw_msg[*_context.offset..=(*_context.offset + payload_size)]).to_base58();
         *_context.offset += payload_size;
     }
 

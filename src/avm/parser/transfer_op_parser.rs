@@ -34,7 +34,7 @@ pub struct NFTMintOp {
     pub type_id: i32,
     pub address_indices: Vec<u32>,
     pub group_id: i32,
-    pub payload: Vec<u8>,
+    pub payload: String,
     pub outputs: Vec<OutputOwner>,
 }
 
@@ -43,7 +43,7 @@ pub struct NFTTransferOp {
     pub type_id: i32,
     pub address_indices: Vec<u32>,
     pub group_id: i32,
-    pub payload: Vec<u8>,
+    pub payload: String,
     pub output_owner: OutputOwner,
 }
 
@@ -226,7 +226,7 @@ pub fn nft_mint_operation_parser(
     *_context.offset += 4;
 
     // Payload
-    let mut payload = Vec::new();
+    let mut payload = String::new();
     if payload_size == 0 {
         trace!(
             "{} \n TransferOp -- NftMintOp Parser -- payload_size is empty ",
@@ -238,7 +238,7 @@ pub fn nft_mint_operation_parser(
             _context.tx_id,
             &_raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_base58()
         );
-        payload = _raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_vec();
+        payload = (_raw_msg[*_context.offset..=(*_context.offset + payload_size)]).to_base58();
         *_context.offset += payload_size;
     }
 
@@ -326,7 +326,7 @@ pub fn nft_transfer_operation_parser(
     *_context.offset += 4;
 
     // Payload
-    let mut payload = Vec::new();
+    let mut payload = String::new();
     if payload_size == 0 {
         trace!(
             "{} \n TransferOp -- NftTransferOp Parser -- payload_size is empty ",
@@ -338,7 +338,7 @@ pub fn nft_transfer_operation_parser(
             _context.tx_id,
             &_raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_base58()
         );
-        payload = _raw_msg[*_context.offset..=(*_context.offset + payload_size)].to_vec();
+        payload = (_raw_msg[*_context.offset..=(*_context.offset + payload_size)]).to_base58();
         *_context.offset += payload_size;
     }
 
