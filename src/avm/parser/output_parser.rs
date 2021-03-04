@@ -4,6 +4,7 @@ use tracing::{error, instrument, trace};
 use std::borrow::Borrow;
 
 use std::error::Error;
+use bech32::ToBase32;
 
 use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_i32, pop_i64, pop_u32};
@@ -16,7 +17,7 @@ pub struct Output {
     pub payload: Option<Vec<u8>>,
     pub locktime: i64,
     pub threshold: i32,
-    pub addresses: Vec<Vec<u8>>,
+    pub addresses: Vec<String>,
 }
 
 #[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
@@ -85,7 +86,7 @@ pub fn secp256k1_mint_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
+        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!(
             "{} \n Output -- SECP256K1MintOutput -- Addresses number {} {:?}",
             _context.tx_id,
@@ -154,7 +155,7 @@ pub fn secp256k1_transfer_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
+        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!(
             "{} \n Output -- SECP256K1TransferOutput -- Parser Addresses number {} {:?}",
             _context.tx_id,
@@ -223,7 +224,7 @@ pub fn nft_mint_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
+        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!(
             "{} \n Output -- SECP256K1MintOutput Parser -- Addresses number {} {:?}",
             _context.tx_id,
@@ -318,7 +319,7 @@ pub fn nft_transfer_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
+        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!(
             "{} \n Output -- NftTransferOutput Parser -- Addresses number {} {:?}",
             _context.tx_id,

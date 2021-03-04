@@ -6,12 +6,13 @@ use std::error::Error;
 
 use crate::avm::parser::Context;
 use crate::utils::conversion::{pop_i32, pop_i64};
+use bech32::ToBase32;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct OutputOwner {
     pub locktime: i64,
     pub threshold: i32,
-    pub addresses: Vec<Vec<u8>>,
+    pub addresses: Vec<String>,
 }
 
 #[instrument(skip(_raw_msg), fields(tx_id = %_context.tx_id))]
@@ -51,7 +52,7 @@ pub fn output_owner_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
+        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!(
             "{} \n Output Owner -- Addresses number {} {:?}",
             _context.tx_id,
