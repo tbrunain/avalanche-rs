@@ -209,6 +209,11 @@ mod tests {
             ]),
             "Checking if the type of the tx is correctly set"
         );
+
+        assert_eq!(
+        tx.base_tx.unwrap().transferable_outputs.get(0).unwrap().output.addresses.get(0).unwrap(),
+        "X-avax19g3a0urkpz9zr3gfv9st50q2yhqdhfp4jgzn0d"
+        )
     }
 
     #[test]

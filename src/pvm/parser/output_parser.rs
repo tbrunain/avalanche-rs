@@ -1,6 +1,7 @@
 use tracing::{error, instrument, trace};
 
 use std::borrow::Borrow;
+use bech32::ToBase32;
 
 use crate::avm::parser::Context;
 use crate::pvm::parser::input_parser::SECP256KTransferInput;
@@ -34,7 +35,7 @@ pub struct SECP256KTransferOutput {
     pub amount: Option<i64>,
     pub locktime: i64,
     pub threshold: i32,
-    pub addresses: Vec<Vec<u8>>,
+    pub addresses: Vec<String>,
 }
 
 #[instrument(skip(_raw_msg), fields(tx_id = % _context.tx_id))]
@@ -100,7 +101,7 @@ pub fn secp256k1_transfer_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
+        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!("Addresses number {} {:?}", index, address);
         addresses.push(address);
         *_context.offset += 20;
@@ -141,7 +142,7 @@ pub fn secp256k1_output_owner_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec();
+        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!("Addresses number {} {:?}", index, address);
         addresses.push(address);
         *_context.offset += 20;
