@@ -140,7 +140,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                network_name: "avax".to_string()
+                network_name: "avax".to_string(),
             },
         )
         .unwrap();
@@ -212,8 +212,16 @@ mod tests {
         );
 
         assert_eq!(
-        tx.base_tx.unwrap().transferable_outputs.get(0).unwrap().output.addresses.get(0).unwrap(),
-        "X-avax19g3a0urkpz9zr3gfv9st50q2yhqdhfp4jgzn0d"
+            tx.base_tx
+                .unwrap()
+                .transferable_outputs
+                .get(0)
+                .unwrap()
+                .output
+                .addresses
+                .get(0)
+                .unwrap(),
+            "X-avax19g3a0urkpz9zr3gfv9st50q2yhqdhfp4jgzn0d"
         )
     }
 
@@ -264,7 +272,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                network_name: "avax".to_string()
+                network_name: "avax".to_string(),
             },
         )
         .unwrap();
@@ -334,7 +342,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                network_name: "avax".to_string()
+                network_name: "avax".to_string(),
             },
         )
         .unwrap();
@@ -400,7 +408,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                network_name: "avax".to_string()
+                network_name: "avax".to_string(),
             },
         )
         .unwrap();
@@ -509,7 +517,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
-                network_name: "avax".to_string()
+                network_name: "avax".to_string(),
             },
         )
         .unwrap();
