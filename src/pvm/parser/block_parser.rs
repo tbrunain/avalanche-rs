@@ -90,6 +90,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -159,6 +160,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -231,6 +233,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -395,6 +398,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -444,6 +448,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -491,6 +496,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -538,6 +544,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -609,6 +616,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -693,6 +701,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -2884,6 +2893,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();
@@ -2985,6 +2995,7 @@ mod tests {
                 uuid: Default::default(),
                 offset: &mut 0,
                 parsing_started: SystemTime::now(),
+                network_name: "avax".to_string()
             },
         )
         .unwrap();

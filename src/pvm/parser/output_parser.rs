@@ -101,7 +101,7 @@ pub fn secp256k1_transfer_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
+        let address = format!("X-{}", bech32::encode(_context.network_name.as_str(), _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!("Addresses number {} {:?}", index, address);
         addresses.push(address);
         *_context.offset += 20;
@@ -142,7 +142,7 @@ pub fn secp256k1_output_owner_output_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
+        let address = format!("X-{}", bech32::encode(_context.network_name.as_str(), _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!("Addresses number {} {:?}", index, address);
         addresses.push(address);
         *_context.offset += 20;
