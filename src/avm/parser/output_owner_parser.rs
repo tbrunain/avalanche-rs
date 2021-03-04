@@ -52,7 +52,7 @@ pub fn output_owner_parser(
     let mut addresses = Vec::new();
 
     while index < number_of_address {
-        let address = format!("X-{}", bech32::encode("avax", _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
+        let address = format!("X-{}", bech32::encode(_context.network_name.as_str(), _raw_msg[*_context.offset..=(*_context.offset + 19)].to_vec().to_base32())?);
         trace!(
             "{} \n Output Owner -- Addresses number {} {:?}",
             _context.tx_id,
