@@ -27,5 +27,5 @@ pub struct Context<'a> {
     /// Current byte number we are parsing
     pub offset: &'a mut usize,
     pub parsing_started: SystemTime,
-    pub network_name: String
+    pub network_name: String,
 }
